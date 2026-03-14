@@ -4,7 +4,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const path = require('path');
 const rateLimit = require('express-rate-limit');
-const nodemailer = require('nodemailer');
+const rateLimit = require('express-rate-limit');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -14,13 +14,8 @@ app.use(express.json());
 
 const contactLimiter = rateLimit({ windowMs: 15*60*1000, max: 5 });
 
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS
-  }
-});
+// Web3Forms setup (using access key)
+const WEB3FORMS_ACCESS_KEY = process.env.WEB3FORMS_ACCESS_KEY || '1da91676-c7b2-45c5-a105-bb7cdf4e3c00';
 
 const connectDB = async () => {
   try {
@@ -127,20 +122,27 @@ app.post('/api/contact', contactLimiter, async (req, res) => {
     if (!name || !email || !message) return res.status(400).json({ error: 'Name, email and message are required.' });
     if (mongoose.connection.readyState === 1) await Message.create({ name, email, subject, message });
 
-    // Send the email to the owner
-    const mailOptions = {
-      from: process.env.EMAIL_USER,
-      to: 'ivory.roses.1437@gmail.com',
-      subject: `New Portfolio Message from ${name} - ${subject || 'No Subject'}`,
-      text: `You have received a new message from your portfolio contact form.\n\nName: ${name}\nEmail: ${email}\nSubject: ${subject || 'None'}\n\nMessage:\n${message}\n\n---\nReply directly to ${email} to answer this message.`
-    };
+    // Send the email via Web3Forms API
+    const response = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        access_key: WEB3FORMS_ACCESS_KEY,
+        name: name,
+        email: email,
+        subject: `New Portfolio Message from ${name} - ${subject || 'No Subject'}`,
+        message: message,
+        from_name: "Portfolio Contact Form",
+        replyto: email
+      })
+    });
     
-    if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
-      transporter.sendMail(mailOptions, (error, info) => {
-        if (error) console.error("Error sending email:", error);
-      });
-    } else {
-      console.warn("Email variables (EMAIL_USER or EMAIL_PASS) are not set. Message saved to DB but no email sent.");
+    const result = await response.json();
+    if (!result.success) {
+      console.error("Web3Forms API Error:", result);
     }
 
     res.json({ success: true, message: "Message sent! I'll get back to you soon 💜" });
