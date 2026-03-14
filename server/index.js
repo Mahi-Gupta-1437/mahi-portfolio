@@ -4,7 +4,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const path = require('path');
 const rateLimit = require('express-rate-limit');
-const rateLimit = require('express-rate-limit');
+
 
 const app = express();
 const PORT = process.env.PORT || 5000;
