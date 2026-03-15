@@ -12,7 +12,7 @@ export default function Navbar({ portfolio, theme, setTheme, openPdf }) {
         if (window.google && window.google.translate) {
           new window.google.translate.TranslateElement({
             pageLanguage: 'en',
-            // Use default layout to render native <select> to fix mobile scrolling
+            layout: window.google.translate.TranslateElement.InlineLayout.SIMPLE
           }, 'google_translate_element');
         }
       };
@@ -24,6 +24,57 @@ export default function Navbar({ portfolio, theme, setTheme, openPdf }) {
       setTranslateLoaded(true);
     }
   }, [translateLoaded]);
+
+  // Fix Google Translate iframe menu scrolling on mobile
+  React.useEffect(() => {
+    const fixTranslateFrame = () => {
+      const frame = document.querySelector('.goog-te-menu-frame');
+      if (frame) {
+        frame.setAttribute('scrolling', 'yes');
+        try {
+          const iframeDoc = frame.contentDocument || frame.contentWindow.document;
+          if (iframeDoc && iframeDoc.body) {
+            iframeDoc.body.style.overflow = 'auto';
+            // Also try to fix the menu container inside
+            const menu = iframeDoc.querySelector('.goog-te-menu2');
+            if (menu) {
+              menu.style.maxHeight = '70vh';
+              menu.style.overflow = 'auto';
+              menu.style.overflowX = 'hidden';
+            }
+          }
+        } catch (e) { /* cross-origin, handled by CSS fallback */ }
+      }
+    };
+
+    // Use MutationObserver to catch when Google injects the iframe
+    const observer = new MutationObserver((mutations) => {
+      for (const m of mutations) {
+        for (const node of m.addedNodes) {
+          if (node.nodeType === 1 && (
+            node.classList?.contains('goog-te-menu-frame') ||
+            node.querySelector?.('.goog-te-menu-frame')
+          )) {
+            setTimeout(fixTranslateFrame, 100);
+          }
+        }
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    // Also run on any click on the translate widget (menu appears on click)
+    const handleClick = (e) => {
+      if (e.target.closest?.('#google_translate_element') || e.target.closest?.('.goog-te-gadget')) {
+        setTimeout(fixTranslateFrame, 300);
+      }
+    };
+    document.addEventListener('click', handleClick, true);
+
+    return () => {
+      observer.disconnect();
+      document.removeEventListener('click', handleClick, true);
+    };
+  }, []);
 
   if (!portfolio) return null;
   return (
