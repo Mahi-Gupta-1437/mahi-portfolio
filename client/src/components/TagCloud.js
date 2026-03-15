@@ -17,8 +17,8 @@ export default function TagCloud({ texts }) {
     const isMobile = r < 110;
     const cols = isMobile ? 2 : Math.ceil(Math.sqrt(count));
     const rows = Math.ceil(count / cols);
-    const spacingX = isMobile ? 130 : 120;
-    const spacingY = isMobile ? 55 : 50;
+    const spacingX = isMobile ? 130 : 140;
+    const spacingY = isMobile ? 55 : 60;
     const positions = [];
     for (let i = 0; i < count; i++) {
       const row = Math.floor(i / cols);
@@ -140,7 +140,7 @@ export default function TagCloud({ texts }) {
         const isMobile = currentRadius < 110;
         const scale = (item.z + currentRadius) / (2 * currentRadius);
         const opacity = hovered ? 1 : 0.3 + (scale * 0.7);
-        const fontSize = hovered ? (isMobile ? 0.65 : 0.85) : 0.6 + (scale * 0.6);
+        const fontSize = hovered ? (isMobile ? 0.65 : 0.8) : 0.6 + (scale * 0.6);
         const zIndex = Math.round(scale * 100);
         const depthScale = hovered ? 1 : 0.7 + (scale * 0.3);
 
