@@ -246,7 +246,7 @@ section{padding:100px 5%;position:relative;z-index:1}
 .cert-grp-sub{font-size:.72rem;color:var(--text3);margin-top:2px}
 .certs-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:13px}
 /* flip card */
-.cert-card{perspective:1000px;height:126px}
+.cert-card{perspective:1000px;height:144px}
 .cert-card-inner{width:100%;height:100%;transition:transform .55s cubic-bezier(.4,0,.2,1);transform-style:preserve-3d;position:relative}
 .cert-card:hover .cert-card-inner{transform:rotateY(180deg)}
 .cert-front,.cert-back{position:absolute;inset:0;backface-visibility:hidden;background:var(--card);border-radius:16px;border:1px solid var(--border);padding:16px 18px;box-shadow:0 4px 16px var(--shadow)}
