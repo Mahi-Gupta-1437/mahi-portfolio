@@ -74,7 +74,7 @@ export default function Hero({ portfolio, openPdf }) {
       <div className="hero-grid"/>
       <div className="hero-inner max-w">
         <div>
-          <div className="hero-greet">Hello, World <span className="wave">👋</span></div>
+          <div className="hero-greet">Welcome to my portfolio <span className="wave">✨</span></div>
           <h1 className="hero-name">
             <span className="fill">Mahi</span>
             <span className="stroke">Gupta</span>
