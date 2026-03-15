@@ -132,7 +132,6 @@ export default function TagCloud({ texts }) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        perspective: '1000px',
         overflow: 'hidden',
         cursor: hovered ? 'default' : 'grab',
       }}
@@ -142,6 +141,7 @@ export default function TagCloud({ texts }) {
         const opacity = hovered ? 1 : 0.3 + (scale * 0.7);
         const fontSize = hovered ? 0.85 : 0.6 + (scale * 0.6);
         const zIndex = Math.round(scale * 100);
+        const depthScale = hovered ? 1 : 0.7 + (scale * 0.3);
 
         return (
           <div
@@ -149,7 +149,7 @@ export default function TagCloud({ texts }) {
             className="sphere-tag"
             style={{
               position: 'absolute',
-              transform: `translate3d(${item.x}px, ${item.y}px, ${item.z}px)`,
+              transform: `translate(${item.x}px, ${item.y}px) scale(${depthScale})`,
               opacity: opacity,
               zIndex: zIndex,
               fontSize: `${fontSize}rem`,
