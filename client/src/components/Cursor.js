@@ -1,7 +1,14 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 const SPARKS = ['✦','🌸','✨','💜','🦋','🌷','⭐'];
 export default function Cursor() {
+  const [isTouch, setIsTouch] = useState(false);
+
   useEffect(() => {
+    if (window.matchMedia('(pointer: coarse)').matches || 'ontouchstart' in window) {
+      setIsTouch(true);
+      return;
+    }
+
     const bf = document.getElementById('cur-bf');
     const ring = document.getElementById('cur-ring');
     let mx=0, my=0;
@@ -28,6 +35,8 @@ export default function Cursor() {
     });
     return () => document.removeEventListener('mousemove', move);
   }, []);
+  if (isTouch) return null;
+
   return (
     <>
       <div id="cur-bf" style={{position:'fixed',zIndex:99999,pointerEvents:'none',transform:'translate(-50%,-50%)'}}>
