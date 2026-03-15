@@ -12,7 +12,7 @@ export default function Navbar({ portfolio, theme, setTheme, openPdf }) {
         if (window.google && window.google.translate) {
           new window.google.translate.TranslateElement({
             pageLanguage: 'en',
-            layout: window.google.translate.TranslateElement.InlineLayout.SIMPLE
+            // Use default layout to render native <select> to fix mobile scrolling
           }, 'google_translate_element');
         }
       };
