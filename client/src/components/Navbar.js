@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Magnetic from './Magnetic';
 
-export default function Navbar({ portfolio, theme, setTheme, openPdf }) {
+export default function Navbar({ portfolio, theme, setTheme, soundOn, setSoundOn, openPdf }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [translateLoaded, setTranslateLoaded] = useState(false);
   const API = process.env.REACT_APP_API_URL || '';
@@ -51,10 +51,15 @@ export default function Navbar({ portfolio, theme, setTheme, openPdf }) {
       </ul>
       <div className="nav-right">
         <div id="google_translate_element" className="gt-widget"></div>
-        <button className="btn-theme" onClick={() => setTheme(t => t==='light'?'dark':'light')}>
+        <button className="btn-theme" onClick={() => setSoundOn(!soundOn)} title="Toggle UI Sounds" style={{marginRight: '8px'}}>
+          <i className={`fas ${soundOn ? 'fa-volume-up' : 'fa-volume-mute'}`} />
+        </button>
+        <button className="btn-theme" onClick={() => setTheme(t => t==='light'?'dark':'light')} title="Toggle Theme" style={{marginRight: '8px'}}>
           {theme==='light'?'🌙':'☀️'}
         </button>
-        <button onClick={() => openPdf(`${API}/pdfs/MyFinalCV.pdf`, 'Mahi Gupta - CV')} className="btn-nav"><i className="fas fa-eye"/> CV</button>
+        <Magnetic pull={0.25}>
+          <button onClick={() => openPdf(`${API}/pdfs/MyFinalCV.pdf`, 'Mahi Gupta - CV')} className="btn-nav"><i className="fas fa-eye"/> CV</button>
+        </Magnetic>
         <button className="menu-toggle" onClick={() => setIsMenuOpen(!isMenuOpen)}>
           <i className={isMenuOpen ? "fas fa-times" : "fas fa-bars"} />
         </button>

@@ -19,6 +19,7 @@ const API = process.env.REACT_APP_API_URL || '';
 
 export default function App() {
   const [theme, setTheme] = useState('light');
+  const [soundOn, setSoundOn] = useState(false);
   const [pdfFile, setPdfFile] = useState(null);
   const [pdfTitle, setPdfTitle] = useState('');
   const [portfolio, setPortfolio] = useState(null);
@@ -82,6 +83,57 @@ export default function App() {
   const openPdf = (file, title) => { setPdfFile(file); setPdfTitle(title); };
   const closePdf = () => { setPdfFile(null); };
 
+  // UI Sounds
+  useEffect(() => {
+    if (!soundOn) return;
+    const playPop = () => {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(800, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(300, ctx.currentTime + 0.05);
+        gain.gain.setValueAtTime(0.05, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.05);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.05);
+      } catch(e) {}
+    };
+    const playClick = () => {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(150, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(50, ctx.currentTime + 0.03);
+        gain.gain.setValueAtTime(0.08, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.03);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.03);
+      } catch(e) {}
+    };
+
+    const handleMouseOver = (e) => {
+      if(e.target.closest('button, a, .card, .proj-card, .skill-card, .cert-card')) playPop();
+    };
+    const handleMouseDown = (e) => {
+      if(e.target.closest('button, a, .card, .proj-card, .skill-card, .cert-card')) playClick();
+    };
+
+    document.addEventListener('mouseover', handleMouseOver);
+    document.addEventListener('mousedown', handleMouseDown);
+    return () => {
+      document.removeEventListener('mouseover', handleMouseOver);
+      document.removeEventListener('mousedown', handleMouseDown);
+    };
+  }, [soundOn]);
+
   if (!portfolio) return <Loader />;
 
   return (
@@ -90,7 +142,7 @@ export default function App() {
       <Loader done={loaded} />
       <AmbientCanvas />
       <div id="scroll-prog" />
-      <Navbar portfolio={portfolio} theme={theme} setTheme={setTheme} openPdf={openPdf} />
+      <Navbar portfolio={portfolio} theme={theme} setTheme={setTheme} soundOn={soundOn} setSoundOn={setSoundOn} openPdf={openPdf} />
       <Hero portfolio={portfolio} openPdf={openPdf} />
       <Marquee />
       <About portfolio={portfolio} />
