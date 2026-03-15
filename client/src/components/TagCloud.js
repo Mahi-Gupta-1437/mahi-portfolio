@@ -4,8 +4,8 @@ export default function TagCloud({ texts }) {
   const containerRef = useRef(null);
   const [items, setItems] = useState([]);
   const [hovered, setHovered] = useState(false);
+  const [currentRadius, setCurrentRadius] = useState(140);
   
-  const radius = 140;
   const speed = 0.0002;
 
   const hoveredRef = useRef(false);
@@ -13,11 +13,12 @@ export default function TagCloud({ texts }) {
   const mouseYRef = useRef(0);
 
   // Calculate grid positions for arranged layout
-  const getGridPositions = useCallback((count) => {
-    const cols = Math.ceil(Math.sqrt(count));
+  const getGridPositions = useCallback((count, r) => {
+    const isMobile = r < 120;
+    const cols = isMobile ? Math.min(3, Math.ceil(Math.sqrt(count))) : Math.ceil(Math.sqrt(count));
     const rows = Math.ceil(count / cols);
-    const spacingX = 120;
-    const spacingY = 50;
+    const spacingX = isMobile ? 90 : 120;
+    const spacingY = isMobile ? 42 : 50;
     const positions = [];
     for (let i = 0; i < count; i++) {
       const row = Math.floor(i / cols);
@@ -34,24 +35,38 @@ export default function TagCloud({ texts }) {
   }, []);
 
   useEffect(() => {
+    // Compute radius based on container width
+    const updateRadius = () => {
+      if (containerRef.current) {
+        const w = containerRef.current.offsetWidth;
+        const r = Math.min(140, (w / 2) - 60);
+        setCurrentRadius(Math.max(60, r));
+      }
+    };
+    updateRadius();
+    window.addEventListener('resize', updateRadius);
+    return () => window.removeEventListener('resize', updateRadius);
+  }, []);
+
+  useEffect(() => {
     const newItems = texts.map((text, i) => {
       const phi = Math.acos(-1 + (2 * i) / texts.length);
       const theta = Math.sqrt(texts.length * Math.PI) * phi;
       return {
         text,
-        x: radius * Math.cos(theta) * Math.sin(phi),
-        y: radius * Math.sin(theta) * Math.sin(phi),
-        z: radius * Math.cos(phi),
+        x: currentRadius * Math.cos(theta) * Math.sin(phi),
+        y: currentRadius * Math.sin(theta) * Math.sin(phi),
+        z: currentRadius * Math.cos(phi),
       };
     });
     setItems(newItems);
-  }, [texts, radius]);
+  }, [texts, currentRadius]);
 
   useEffect(() => {
     let animationFrameId;
     let rotationX = 0;
     let rotationY = 0;
-    const gridPositions = getGridPositions(texts.length);
+    const gridPositions = getGridPositions(texts.length, currentRadius);
     // Lerp factor for smooth transition
     const lerp = 0.06;
     
@@ -91,7 +106,7 @@ export default function TagCloud({ texts }) {
 
     updatePoints();
     return () => cancelAnimationFrame(animationFrameId);
-  }, [texts.length, getGridPositions]);
+  }, [texts.length, getGridPositions, currentRadius]);
 
   const handleMouseEnter = () => {
     hoveredRef.current = true;
@@ -118,11 +133,12 @@ export default function TagCloud({ texts }) {
         alignItems: 'center',
         justifyContent: 'center',
         perspective: '1000px',
+        overflow: 'hidden',
         cursor: hovered ? 'default' : 'grab',
       }}
     >
       {items.map((item, idx) => {
-        const scale = (item.z + radius) / (2 * radius);
+        const scale = (item.z + currentRadius) / (2 * currentRadius);
         const opacity = hovered ? 1 : 0.3 + (scale * 0.7);
         const fontSize = hovered ? 0.85 : 0.6 + (scale * 0.6);
         const zIndex = Math.round(scale * 100);
