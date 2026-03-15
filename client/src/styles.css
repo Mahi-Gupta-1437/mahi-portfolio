@@ -47,17 +47,17 @@ nav.scrolled{box-shadow:0 4px 30px var(--shadow)}
 .btn-nav:hover{transform:translateY(-2px) scale(1.04);box-shadow:0 6px 22px var(--shadow)}
 .menu-toggle{display:none;background:transparent;border:none;color:var(--text);font-size:1.35rem;padding:4px;outline:none;margin-left:4px;margin-right:2px}
 .menu-toggle:hover{color:var(--primary)}
-.gt-widget{display:flex;align-items:center;margin-right:2px;overflow:hidden;border-radius:6px;max-height:36px;min-width:120px}
-.goog-te-gadget{font-family:inherit!important;font-size:0!important;color:transparent!important}
-.goog-te-gadget .goog-te-combo{margin:0!important;padding:4px 6px!important;border-radius:6px!important;border:1px solid var(--border)!important;background:var(--card)!important;color:var(--text)!important;font-size:.75rem!important;font-family:inherit!important;outline:none!important;cursor:pointer!important}
+.gt-widget{display:flex;align-items:center;margin-right:2px;border-radius:6px;max-height:36px;min-width:90px}
+.custom-lang-select{margin:0;padding:5px 8px;border-radius:6px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:.75rem;font-family:inherit;outline:none;cursor:pointer;max-width:130px;appearance:auto;-webkit-appearance:auto}
+.custom-lang-select:focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--pri-s)}
+/* Hide any Google Translate UI that leaks through */
+.goog-te-gadget{font-size:0!important;color:transparent!important}
 .goog-te-gadget span{display:none!important}
 .goog-logo-link{display:none!important}
 .goog-te-banner-frame{display:none!important}
 body{top:0!important}
-.goog-te-menu-frame{max-width:100vw!important;max-height:85vh!important;border-radius:12px!important;box-shadow:0 10px 40px var(--shadow)!important}
-@media(max-width:960px){
-  iframe.goog-te-menu-frame.skiptranslate{position:fixed!important;left:50%!important;transform:translateX(-50%)!important;top:10%!important;bottom:auto!important;width:95vw!important;max-width:95vw!important;height:70vh!important;max-height:70vh!important;overflow:auto!important;-webkit-overflow-scrolling:touch!important;z-index:99999!important;border:2px solid var(--border)!important;border-radius:14px!important;background:var(--card)!important}
-}
+.goog-te-menu-frame{display:none!important}
+.skiptranslate iframe{display:none!important}
 /* ── SECTION UTILS ── */
 section{padding:100px 5%;position:relative;z-index:1}
 .max-w{max-width:1160px;margin:0 auto}
