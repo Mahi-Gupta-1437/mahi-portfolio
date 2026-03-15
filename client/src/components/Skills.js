@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import useReveal from '../hooks/useReveal';
+import TagCloud from './TagCloud';
 export default function Skills({ skills }) {
   const ref = useReveal();
   const obs = useRef();
@@ -27,9 +28,7 @@ export default function Skills({ skills }) {
             <div key={i} className={`skill-card rv ${delays[i]}`}>
               <div className="skill-card-title"><i className={`fas ${grp.icon}`}/> {grp.category}</div>
               {grp.type === 'bubbles' ? (
-                <div className="bubble-cloud">
-                  {grp.skills.map((s,j) => <div key={j} className="bubble"><i className={`fas ${s.icon}`}/><span>{s.name}</span></div>)}
-                </div>
+                <TagCloud texts={grp.skills.map(s => s.name)} />
               ) : (
                 grp.skills.map((s,j) => (
                   <div key={j} className="skl" data-pct={s.pct}>
