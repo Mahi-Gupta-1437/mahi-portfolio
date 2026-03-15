@@ -45,7 +45,7 @@ nav.scrolled{box-shadow:0 4px 30px var(--shadow)}
 .btn-theme:hover{border-color:var(--primary);color:var(--primary);transform:rotate(20deg)}
 .btn-nav{background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;border:none;padding:9px 20px;border-radius:50px;font-size:.82rem;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:7px;box-shadow:0 3px 14px var(--shadow);transition:all .3s}
 .btn-nav:hover{transform:translateY(-2px) scale(1.04);box-shadow:0 6px 22px var(--shadow)}
-.menu-toggle{display:none;background:transparent;border:none;color:var(--text);font-size:1.3rem;padding:4px;outline:none}
+.menu-toggle{display:none;background:transparent;border:none;color:var(--text);font-size:1.35rem;padding:4px;outline:none;margin-left:6px;margin-right:4px}
 .menu-toggle:hover{color:var(--primary)}
 .gt-widget{display:flex;align-items:center;margin-right:8px;overflow:hidden;border-radius:6px;max-height:36px}
 .goog-te-gadget{font-family:inherit!important;font-size:0!important;color:transparent!important}
