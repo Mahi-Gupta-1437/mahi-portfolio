@@ -15,7 +15,16 @@ export default function Hero({ portfolio, openPdf }) {
   const [counts, setCounts] = useState({projects:0,certificates:0,cgpa:0});
   const [cmdLines, setCmdLines] = useState([{cmd:'',out:'',visible:false},{cmd:'',out:'',visible:false},{cmd:'',out:'',visible:false}]);
   const [blinkVisible, setBlinkVisible] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
   const pi = useRef(0), ci = useRef(0), del = useRef(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   useEffect(() => {
     // Typing effect
@@ -71,9 +80,9 @@ export default function Hero({ portfolio, openPdf }) {
 
   return (
     <section id="hero" style={{position:'relative'}}>
-      <div className="aurora"/>
-      <div className="hero-grid"/>
-      <div className="hero-inner max-w">
+      <div className="aurora" style={{ transform: `translateY(${scrollY * 0.45}px)` }}/>
+      <div className="hero-grid" style={{ transform: `translateY(${scrollY * 0.25}px)` }}/>
+      <div className="hero-inner max-w" style={{ transform: `translateY(${scrollY * 0.15}px)` }}>
         <div>
           <div className="hero-greet">Welcome to my portfolio <span className="wave">✨</span></div>
           <h1 className="hero-name">
