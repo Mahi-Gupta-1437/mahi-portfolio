@@ -6,7 +6,7 @@ export default function Navbar({ portfolio, theme, setTheme, openPdf }) {
     <nav id="main-nav">
       <div className="nav-logo">Mahi<span className="nav-dot">.</span></div>
       <ul className="nav-links">
-        {['about','skills','projects','certifications','education','documents','contact'].map(s => {
+        {['about','skills','projects','certifications','education','contact'].map(s => {
             const isCertifications = s === 'certifications';
             return (
               <React.Fragment key={s}>

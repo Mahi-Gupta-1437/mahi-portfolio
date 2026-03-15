@@ -10,7 +10,6 @@ import Skills from './components/Skills';
 import Projects from './components/Projects';
 import Certifications from './components/Certifications';
 import Education from './components/Education';
-import Documents from './components/Documents';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import PdfModal from './components/PdfModal';
@@ -27,7 +26,6 @@ export default function App() {
   const [projects, setProjects] = useState([]);
   const [certs, setCerts] = useState([]);
   const [education, setEducation] = useState([]);
-  const [documents, setDocuments] = useState([]);
   const [visitors, setVisitors] = useState(null);
   const [loaded, setLoaded] = useState(false);
 
@@ -35,17 +33,16 @@ export default function App() {
   useEffect(() => {
     const load = async () => {
       try {
-        const [p, s, pr, c, e, d, v] = await Promise.all([
+        const [p, s, pr, c, e, v] = await Promise.all([
           axios.get(`${API}/api/portfolio`),
           axios.get(`${API}/api/skills`),
           axios.get(`${API}/api/projects`),
           axios.get(`${API}/api/certifications`),
           axios.get(`${API}/api/education`),
-          axios.get(`${API}/api/documents`),
           axios.get(`${API}/api/visitors`),
         ]);
         setPortfolio(p.data); setSkills(s.data); setProjects(pr.data);
-        setCerts(c.data); setEducation(e.data); setDocuments(d.data);
+        setCerts(c.data); setEducation(e.data);
         setVisitors(v.data.count);
       } catch(err) { console.error('API error:', err.message); }
       setTimeout(() => setLoaded(true), 1600);
@@ -92,7 +89,6 @@ export default function App() {
       <Projects projects={projects} openPdf={openPdf} />
       <Certifications certs={certs} openPdf={openPdf} />
       <Education education={education} />
-      <Documents documents={documents} openPdf={openPdf} />
       <Contact portfolio={portfolio} />
       <Footer portfolio={portfolio} />
       {pdfFile && <PdfModal file={pdfFile} title={pdfTitle} onClose={closePdf} />}
