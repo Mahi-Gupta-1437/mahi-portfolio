@@ -46,6 +46,7 @@ nav.scrolled{box-shadow:0 4px 30px var(--shadow)}
 .btn-nav{background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;border:none;padding:9px 20px;border-radius:50px;font-size:.82rem;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:7px;box-shadow:0 3px 14px var(--shadow);transition:all .3s;white-space:nowrap}
 .btn-nav:hover{transform:translateY(-2px) scale(1.04);box-shadow:0 6px 22px var(--shadow)}
 .menu-toggle{display:none;background:transparent;border:none;color:var(--text);font-size:1.35rem;padding:4px;outline:none;margin-left:4px;margin-right:2px}
+.nav-cv-mobile{display:none}
 .menu-toggle:hover{color:var(--primary)}
 .gt-widget{display:flex;align-items:center;margin-right:2px;border-radius:6px;max-height:36px;min-width:90px}
 .custom-lang-select{margin:0;padding:5px 8px;border-radius:6px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:.75rem;font-family:inherit;outline:none;cursor:pointer;max-width:130px;appearance:auto;-webkit-appearance:auto}
@@ -355,5 +356,13 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:26px 5%;t
   .nav-links a{font-size:1.05rem}
   .about-card{position:static}
   .hero-visual{margin-top:26px}
+  .nav-right{gap:4px}
+  .nav-right .btn-nav{display:none}
+  .gt-widget{min-width:auto}
+  .custom-lang-select{max-width:100px;padding:4px 4px;font-size:.68rem}
+  .btn-reset-lang{padding:3px 6px;font-size:.62rem}
+  .btn-theme{width:30px;height:30px;font-size:.82rem}
+  .nav-cv-mobile{display:block}
+  .nav-cv-mobile a{color:var(--primary);font-weight:600}
 }
 @media(max-width:600px){.orb-wrap,.orb{width:240px;height:240px}.hero-btns{justify-content:center}.hero-greet{justify-content:center}.hero-stats{max-width:360px;margin:0 auto}}
