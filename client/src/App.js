@@ -26,28 +26,37 @@ export default function App() {
   const [projects, setProjects] = useState([]);
   const [certs, setCerts] = useState([]);
   const [education, setEducation] = useState([]);
-  const [visitors, setVisitors] = useState(null);
+  const [timeStr, setTimeStr] = useState('');
   const [loaded, setLoaded] = useState(false);
 
   // Load all data
   useEffect(() => {
     const load = async () => {
       try {
-        const [p, s, pr, c, e, v] = await Promise.all([
+        const [p, s, pr, c, e] = await Promise.all([
           axios.get(`${API}/api/portfolio`),
           axios.get(`${API}/api/skills`),
           axios.get(`${API}/api/projects`),
           axios.get(`${API}/api/certifications`),
           axios.get(`${API}/api/education`),
-          axios.get(`${API}/api/visitors`),
         ]);
         setPortfolio(p.data); setSkills(s.data); setProjects(pr.data);
         setCerts(c.data); setEducation(e.data);
-        setVisitors(v.data.count);
       } catch(err) { console.error('API error:', err.message); }
       setTimeout(() => setLoaded(true), 1600);
     };
     load();
+  }, []);
+
+  // Update time
+  useEffect(() => {
+    const updateTime = () => {
+      const str = new Date().toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit' });
+      setTimeStr(`India • ${str}`);
+    };
+    updateTime();
+    const t = setInterval(updateTime, 1000);
+    return () => clearInterval(t);
   }, []);
 
   // Theme
@@ -92,10 +101,10 @@ export default function App() {
       <Contact portfolio={portfolio} />
       <Footer portfolio={portfolio} />
       {pdfFile && <PdfModal file={pdfFile} title={pdfTitle} onClose={closePdf} />}
-      {visitors && (
-        <div className="visitor-badge">
-          <div className="visitor-dot" />
-          {visitors} visitors
+      {timeStr && (
+        <div className="visitor-badge" style={{ gap: '8px' }}>
+          <i className="far fa-clock" style={{ color: 'var(--primary)', fontSize: '0.9rem' }} />
+          {timeStr}
         </div>
       )}
       <button id="btt" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
