@@ -1,19 +1,39 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 
 export default function TagCloud({ texts }) {
   const containerRef = useRef(null);
   const [items, setItems] = useState([]);
+  const [hovered, setHovered] = useState(false);
   
-  const radius = 140; // Size of the sphere
+  const radius = 140;
   const speed = 0.0002;
 
-  let mouseX = 0;
-  let mouseY = 0;
-  let rotationX = 0;
-  let rotationY = 0;
+  const hoveredRef = useRef(false);
+  const mouseXRef = useRef(0);
+  const mouseYRef = useRef(0);
+
+  // Calculate grid positions for arranged layout
+  const getGridPositions = useCallback((count) => {
+    const cols = Math.ceil(Math.sqrt(count));
+    const rows = Math.ceil(count / cols);
+    const spacingX = 120;
+    const spacingY = 50;
+    const positions = [];
+    for (let i = 0; i < count; i++) {
+      const row = Math.floor(i / cols);
+      const col = i % cols;
+      const itemsInRow = row === rows - 1 ? count - row * cols : cols;
+      const rowOffset = (cols - itemsInRow) * spacingX / 2;
+      positions.push({
+        x: (col - (cols - 1) / 2) * spacingX + rowOffset,
+        y: (row - (rows - 1) / 2) * spacingY,
+        z: 0
+      });
+    }
+    return positions;
+  }, []);
 
   useEffect(() => {
-    // Initial distribute points on a sphere (Fibonacci sphere algorithm)
     const newItems = texts.map((text, i) => {
       const phi = Math.acos(-1 + (2 * i) / texts.length);
       const theta = Math.sqrt(texts.length * Math.PI) * phi;
@@ -29,53 +49,66 @@ export default function TagCloud({ texts }) {
 
   useEffect(() => {
     let animationFrameId;
+    let rotationX = 0;
+    let rotationY = 0;
+    const gridPositions = getGridPositions(texts.length);
+    // Lerp factor for smooth transition
+    const lerp = 0.06;
     
     const updatePoints = () => {
-      // Auto rotate slowly, plus mouse influence
-      rotationY -= Math.max(-speed * 3, Math.min(speed * 3, mouseX * 0.0001)) || speed;
-      rotationX -= Math.max(-speed * 3, Math.min(speed * 3, mouseY * 0.0001)) || speed;
+      if (hoveredRef.current) {
+        // Smoothly lerp towards grid positions
+        setItems(prev => prev.map((item, i) => {
+          const target = gridPositions[i];
+          return {
+            ...item,
+            x: item.x + (target.x - item.x) * lerp,
+            y: item.y + (target.y - item.y) * lerp,
+            z: item.z + (target.z - item.z) * lerp,
+          };
+        }));
+      } else {
+        // Normal sphere rotation
+        rotationY -= speed;
+        rotationX -= speed;
 
-      const cosX = Math.cos(rotationX);
-      const sinX = Math.sin(rotationX);
-      const cosY = Math.cos(rotationY);
-      const sinY = Math.sin(rotationY);
+        const cosX = Math.cos(rotationX);
+        const sinX = Math.sin(rotationX);
+        const cosY = Math.cos(rotationY);
+        const sinY = Math.sin(rotationY);
 
-      setItems(prev => prev.map(item => {
-        // Rotate around Y
-        let x1 = item.x * cosY + item.z * sinY;
-        let z1 = item.z * cosY - item.x * sinY;
-        
-        // Rotate around X
-        let y1 = item.y * cosX - z1 * sinX;
-        let z2 = z1 * cosX + item.y * sinX;
-
-        return { ...item, x: x1, y: y1, z: z2 };
-      }));
+        setItems(prev => prev.map(item => {
+          let x1 = item.x * cosY + item.z * sinY;
+          let z1 = item.z * cosY - item.x * sinY;
+          let y1 = item.y * cosX - z1 * sinX;
+          let z2 = z1 * cosX + item.y * sinX;
+          return { ...item, x: x1, y: y1, z: z2 };
+        }));
+      }
       
       animationFrameId = requestAnimationFrame(updatePoints);
     };
 
     updatePoints();
     return () => cancelAnimationFrame(animationFrameId);
-  }, []);
+  }, [texts.length, getGridPositions]);
 
-  const handleMouseMove = (e) => {
-    if(!containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    // Calculate mouse position relative to center of container
-    mouseX = e.clientX - rect.left - rect.width / 2;
-    mouseY = e.clientY - rect.top - rect.height / 2;
+  const handleMouseEnter = () => {
+    hoveredRef.current = true;
+    setHovered(true);
   };
 
   const handleMouseLeave = () => {
-    mouseX = 0;
-    mouseY = 0;
+    hoveredRef.current = false;
+    setHovered(false);
+    mouseXRef.current = 0;
+    mouseYRef.current = 0;
   };
 
   return (
     <div 
       ref={containerRef}
-      onMouseMove={handleMouseMove}
+      onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       style={{
         position: 'relative',
@@ -85,13 +118,13 @@ export default function TagCloud({ texts }) {
         alignItems: 'center',
         justifyContent: 'center',
         perspective: '1000px',
+        cursor: hovered ? 'default' : 'grab',
       }}
     >
       {items.map((item, idx) => {
-        // Calculate style based on 3D depth
-        const scale = (item.z + radius) / (2 * radius); // 0 (back) to 1 (front)
-        const opacity = 0.3 + (scale * 0.7);
-        const fontSize = 0.6 + (scale * 0.6); // smaller in back, larger in front
+        const scale = (item.z + radius) / (2 * radius);
+        const opacity = hovered ? 1 : 0.3 + (scale * 0.7);
+        const fontSize = hovered ? 0.85 : 0.6 + (scale * 0.6);
         const zIndex = Math.round(scale * 100);
 
         return (
@@ -112,8 +145,10 @@ export default function TagCloud({ texts }) {
               borderRadius: '50px',
               whiteSpace: 'nowrap',
               boxShadow: '0 4px 12px var(--shadow)',
-              pointerEvents: scale > 0.5 ? 'auto' : 'none', // only clickable if in front
-              transition: 'color 0.3s, background 0.3s, border-color 0.3s, opacity 0.1s, font-size 0.1s',
+              pointerEvents: hovered || scale > 0.5 ? 'auto' : 'none',
+              transition: hovered
+                ? 'opacity 0.5s ease, font-size 0.5s ease, color 0.3s, background 0.3s, border-color 0.3s'
+                : 'color 0.3s, background 0.3s, border-color 0.3s, opacity 0.1s, font-size 0.1s',
               userSelect: 'none'
             }}
           >
