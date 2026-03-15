@@ -9,7 +9,7 @@ a,button{cursor:none!important}
 #cur-bf{position:fixed;z-index:99999;pointer-events:none;width:36px;height:36px;transform:translate(-50%,-50%);will-change:left,top}
 #cur-bf svg{animation:bf-flap .5s ease-in-out infinite alternate}
 @keyframes bf-flap{from{transform:scaleX(1) rotate(-4deg)}to{transform:scaleX(.55) rotate(4deg)}}
-#cur-ring{position:fixed;z-index:99998;pointer-events:none;width:38px;height:38px;border-radius:50%;border:1.5px solid var(--accent);transform:translate(-50%,-50%);transition:left .15s ease-out,top .15s ease-out,width .3s,height .3s,border-color .3s;opacity:.5}
+#cur-ring{position:fixed;z-index:99998;pointer-events:none;width:38px;height:38px;border-radius:50%;border:1.5px solid var(--accent);transform:translate(-50%,-50%);transition:left .08s ease-out,top .08s ease-out,width .3s,height .3s,border-color .3s;opacity:.5}
 body.hov #cur-ring{width:56px;height:56px;border-color:var(--primary);opacity:.8}
 .spk{position:fixed;pointer-events:none;z-index:99990;font-size:14px;animation:spk-out .7s ease-out forwards}
 @keyframes spk-out{0%{opacity:1;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(-50%,-160%) scale(0)}}
