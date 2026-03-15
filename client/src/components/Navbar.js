@@ -1,7 +1,28 @@
 import React, { useState } from 'react';
 export default function Navbar({ portfolio, theme, setTheme, openPdf }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [translateLoaded, setTranslateLoaded] = useState(false);
   const API = process.env.REACT_APP_API_URL || '';
+
+  React.useEffect(() => {
+    if (!translateLoaded && !document.getElementById('g-translate-script')) {
+      window.googleTranslateElementInit = () => {
+        if (window.google && window.google.translate) {
+          new window.google.translate.TranslateElement({
+            pageLanguage: 'en',
+            layout: window.google.translate.TranslateElement.InlineLayout.SIMPLE
+          }, 'google_translate_element');
+        }
+      };
+      const script = document.createElement('script');
+      script.id = 'g-translate-script';
+      script.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+      script.async = true;
+      document.body.appendChild(script);
+      setTranslateLoaded(true);
+    }
+  }, [translateLoaded]);
+
   if (!portfolio) return null;
   return (
     <nav id="main-nav">
@@ -27,6 +48,7 @@ export default function Navbar({ portfolio, theme, setTheme, openPdf }) {
         })}
       </ul>
       <div className="nav-right">
+        <div id="google_translate_element" className="gt-widget"></div>
         <button className="btn-theme" onClick={() => setTheme(t => t==='light'?'dark':'light')}>
           {theme==='light'?'🌙':'☀️'}
         </button>
