@@ -14,11 +14,11 @@ export default function TagCloud({ texts }) {
 
   // Calculate grid positions for arranged layout
   const getGridPositions = useCallback((count, r) => {
-    const isMobile = r < 120;
-    const cols = isMobile ? Math.min(3, Math.ceil(Math.sqrt(count))) : Math.ceil(Math.sqrt(count));
+    const isMobile = r < 110;
+    const cols = isMobile ? 2 : Math.ceil(Math.sqrt(count));
     const rows = Math.ceil(count / cols);
-    const spacingX = isMobile ? 90 : 120;
-    const spacingY = isMobile ? 42 : 50;
+    const spacingX = isMobile ? 85 : 120;
+    const spacingY = isMobile ? 40 : 50;
     const positions = [];
     for (let i = 0; i < count; i++) {
       const row = Math.floor(i / cols);
@@ -137,9 +137,10 @@ export default function TagCloud({ texts }) {
       }}
     >
       {items.map((item, idx) => {
+        const isMobile = currentRadius < 110;
         const scale = (item.z + currentRadius) / (2 * currentRadius);
         const opacity = hovered ? 1 : 0.3 + (scale * 0.7);
-        const fontSize = hovered ? 0.85 : 0.6 + (scale * 0.6);
+        const fontSize = hovered ? (isMobile ? 0.7 : 0.85) : 0.6 + (scale * 0.6);
         const zIndex = Math.round(scale * 100);
         const depthScale = hovered ? 1 : 0.7 + (scale * 0.3);
 
@@ -155,7 +156,7 @@ export default function TagCloud({ texts }) {
               fontSize: `${fontSize}rem`,
               color: 'var(--primary)',
               fontWeight: 700,
-              padding: '6px 12px',
+              padding: currentRadius < 110 ? '4px 8px' : '6px 12px',
               background: 'var(--bg2)',
               border: '1px solid var(--border)',
               borderRadius: '50px',
