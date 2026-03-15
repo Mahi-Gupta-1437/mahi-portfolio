@@ -5,7 +5,7 @@ export default function TagCloud({ texts }) {
   const [items, setItems] = useState([]);
   
   const radius = 140; // Size of the sphere
-  const speed = 0.005;
+  const speed = 0.001;
 
   let mouseX = 0;
   let mouseY = 0;
