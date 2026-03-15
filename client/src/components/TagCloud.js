@@ -39,8 +39,8 @@ export default function TagCloud({ texts }) {
     const updateRadius = () => {
       if (containerRef.current) {
         const w = containerRef.current.offsetWidth;
-        const r = Math.min(140, (w / 2) - 60);
-        setCurrentRadius(Math.max(60, r));
+        const r = Math.min(140, (w / 2) - 120);
+        setCurrentRadius(Math.max(50, r));
       }
     };
     updateRadius();
@@ -128,7 +128,7 @@ export default function TagCloud({ texts }) {
       style={{
         position: 'relative',
         width: '100%',
-        height: '350px',
+        height: currentRadius < 100 ? '280px' : '350px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
