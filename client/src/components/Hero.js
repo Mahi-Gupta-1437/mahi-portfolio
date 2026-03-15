@@ -85,7 +85,7 @@ export default function Hero({ portfolio, openPdf }) {
       <div className="hero-inner max-w" style={{ transform: `translateY(${scrollY * 0.15}px)` }}>
         <div>
           <div className="hero-greet">Welcome to my portfolio <span className="wave">✨</span></div>
-          <h1 className="hero-name">
+          <h1 className="hero-name notranslate" translate="no">
             <span className="fill">Mahi</span>
             <span className="stroke">Gupta</span>
           </h1>
@@ -129,7 +129,7 @@ export default function Hero({ portfolio, openPdf }) {
                   <span className="ct-dot" style={{background:'#28ca41'}}/>
                   <span className="ct-title-text">mahi@portfolio:~</span>
                 </div>
-                <div className="ct-body">
+                <div className="ct-body notranslate" translate="no">
                   {cmdLines.map((l,i) => l.visible && (
                     <div key={i}>
                       <div className="ct-line"><span className="ct-prompt">$</span><span className="ct-cmd">{l.cmd}</span></div>

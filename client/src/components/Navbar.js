@@ -178,7 +178,7 @@ export default function Navbar({ portfolio, theme, setTheme, openPdf }) {
   if (!portfolio) return null;
   return (
     <nav id="main-nav">
-      <div className="nav-logo">Mahi<span className="nav-dot">.</span></div>
+      <div className="nav-logo notranslate" translate="no">Mahi<span className="nav-dot">.</span></div>
       <ul className={`nav-links ${isMenuOpen ? 'open' : ''}`}>
         {['about','achievements','skills','projects','certifications','education','contact'].map(s => {
           if (s === 'achievements') {
@@ -216,10 +216,11 @@ export default function Navbar({ portfolio, theme, setTheme, openPdf }) {
             ))}
           </select>
           <button
-            className="btn-reset-lang"
+            className="btn-reset-lang notranslate"
             onClick={resetToEnglish}
             title="Reset to English"
             aria-label="Reset to English"
+            translate="no"
           >
             EN
           </button>
