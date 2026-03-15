@@ -199,11 +199,6 @@ export default function Navbar({ portfolio, theme, setTheme, openPdf, showTimeBa
           return <li key={s}><a href={`#${s}`} onClick={() => setIsMenuOpen(false)}>{s.charAt(0).toUpperCase()+s.slice(1)}</a></li>;
         })}
         <li className="nav-cv-mobile"><a href="#" onClick={(e) => { e.preventDefault(); setIsMenuOpen(false); openPdf(`${API}/pdfs/MyFinalCV.pdf`, 'Mahi Gupta - CV'); }}><i className="fas fa-eye"/> View CV</a></li>
-        <li className="nav-cv-mobile">
-          <a href="#" onClick={(e) => { e.preventDefault(); setShowTimeBadge(!showTimeBadge); }}>
-            <i className={`fas ${showTimeBadge ? 'fa-toggle-on' : 'fa-toggle-off'}`} style={{ color: showTimeBadge ? 'var(--primary)' : 'inherit' }} /> Local Time
-          </a>
-        </li>
       </ul>
       <div className="nav-right">
         {/* Hidden Google Translate element (drives translation engine) */}
@@ -231,6 +226,17 @@ export default function Navbar({ portfolio, theme, setTheme, openPdf, showTimeBa
             EN
           </button>
         </div>
+        <button 
+          className="btn-theme" 
+          onClick={() => setShowTimeBadge(!showTimeBadge)} 
+          title="Toggle Local Time"
+          style={{ 
+            color: showTimeBadge ? 'var(--primary)' : 'var(--text2)',
+            fontSize: '0.9rem'
+          }}
+        >
+          <i className="far fa-clock" />
+        </button>
         <button className="btn-theme" onClick={() => setTheme(t => t==='light'?'dark':'light')} title="Toggle Theme">
           {theme==='light'?'🌙':'☀️'}
         </button>
