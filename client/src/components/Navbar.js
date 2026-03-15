@@ -51,10 +51,10 @@ export default function Navbar({ portfolio, theme, setTheme, soundOn, setSoundOn
       </ul>
       <div className="nav-right">
         <div id="google_translate_element" className="gt-widget"></div>
-        <button className="btn-theme" onClick={() => setSoundOn(!soundOn)} title="Toggle UI Sounds" style={{marginRight: '8px'}}>
+        <button className="btn-theme" onClick={() => setSoundOn(!soundOn)} title="Toggle UI Sounds">
           <i className={`fas ${soundOn ? 'fa-volume-up' : 'fa-volume-mute'}`} />
         </button>
-        <button className="btn-theme" onClick={() => setTheme(t => t==='light'?'dark':'light')} title="Toggle Theme" style={{marginRight: '8px'}}>
+        <button className="btn-theme" onClick={() => setTheme(t => t==='light'?'dark':'light')} title="Toggle Theme">
           {theme==='light'?'🌙':'☀️'}
         </button>
         <Magnetic pull={0.25}>
