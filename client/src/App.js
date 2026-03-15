@@ -28,6 +28,7 @@ export default function App() {
   const [education, setEducation] = useState([]);
   const [timeStr, setTimeStr] = useState('');
   const [loaded, setLoaded] = useState(false);
+  const [showTimeBadge, setShowTimeBadge] = useState(true);
 
   // Load all data
   useEffect(() => {
@@ -90,7 +91,7 @@ export default function App() {
       <Loader done={loaded} />
       <AmbientCanvas />
       <div id="scroll-prog" />
-      <Navbar portfolio={portfolio} theme={theme} setTheme={setTheme} openPdf={openPdf} />
+      <Navbar portfolio={portfolio} theme={theme} setTheme={setTheme} openPdf={openPdf} showTimeBadge={showTimeBadge} setShowTimeBadge={setShowTimeBadge} />
       <Hero portfolio={portfolio} openPdf={openPdf} />
       <Marquee />
       <About portfolio={portfolio} />
@@ -101,10 +102,28 @@ export default function App() {
       <Contact portfolio={portfolio} />
       <Footer portfolio={portfolio} />
       {pdfFile && <PdfModal file={pdfFile} title={pdfTitle} onClose={closePdf} />}
-      {timeStr && (
+      {timeStr && showTimeBadge && (
         <div className="visitor-badge" style={{ gap: '8px' }}>
           <i className="far fa-clock" style={{ color: 'var(--primary)', fontSize: '0.9rem' }} />
-          {timeStr}
+          <span>{timeStr}</span>
+          <button 
+            className="badge-close" 
+            onClick={() => setShowTimeBadge(false)}
+            style={{ 
+              background: 'none', 
+              border: 'none', 
+              color: 'var(--text2)', 
+              cursor: 'pointer',
+              padding: '2px',
+              marginLeft: '4px',
+              display: 'flex',
+              alignItems: 'center',
+              fontSize: '0.8rem',
+              opacity: 0.6
+            }}
+          >
+            <i className="fas fa-times" />
+          </button>
         </div>
       )}
       <button id="btt" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>

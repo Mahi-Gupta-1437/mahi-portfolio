@@ -114,7 +114,7 @@ const LANGUAGES = [
   { code: 'zu', label: 'Zulu' },
 ];
 
-export default function Navbar({ portfolio, theme, setTheme, openPdf }) {
+export default function Navbar({ portfolio, theme, setTheme, openPdf, showTimeBadge, setShowTimeBadge }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [translateLoaded, setTranslateLoaded] = useState(false);
   const selectRef = useRef(null);
@@ -199,6 +199,11 @@ export default function Navbar({ portfolio, theme, setTheme, openPdf }) {
           return <li key={s}><a href={`#${s}`} onClick={() => setIsMenuOpen(false)}>{s.charAt(0).toUpperCase()+s.slice(1)}</a></li>;
         })}
         <li className="nav-cv-mobile"><a href="#" onClick={(e) => { e.preventDefault(); setIsMenuOpen(false); openPdf(`${API}/pdfs/MyFinalCV.pdf`, 'Mahi Gupta - CV'); }}><i className="fas fa-eye"/> View CV</a></li>
+        <li className="nav-cv-mobile">
+          <a href="#" onClick={(e) => { e.preventDefault(); setShowTimeBadge(!showTimeBadge); }}>
+            <i className={`fas ${showTimeBadge ? 'fa-toggle-on' : 'fa-toggle-off'}`} style={{ color: showTimeBadge ? 'var(--primary)' : 'inherit' }} /> Local Time
+          </a>
+        </li>
       </ul>
       <div className="nav-right">
         {/* Hidden Google Translate element (drives translation engine) */}
