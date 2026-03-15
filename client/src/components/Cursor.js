@@ -8,7 +8,7 @@ export default function Cursor() {
     const move = e => {
       mx=e.clientX; my=e.clientY;
       if(bf){ bf.style.left=mx+'px'; bf.style.top=my+'px'; }
-      setTimeout(()=>{ if(ring){ ring.style.left=mx+'px'; ring.style.top=my+'px'; }},80);
+      if(ring){ ring.style.left=mx+'px'; ring.style.top=my+'px'; }
     };
     document.addEventListener('mousemove', move);
     document.querySelectorAll('a,button,.cert-card,.proj-card,.stat,.skill-card,.doc-card').forEach(el=>{
