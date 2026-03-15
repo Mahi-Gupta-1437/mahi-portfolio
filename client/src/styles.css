@@ -45,6 +45,8 @@ nav.scrolled{box-shadow:0 4px 30px var(--shadow)}
 .btn-theme:hover{border-color:var(--primary);color:var(--primary);transform:rotate(20deg)}
 .btn-nav{background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;border:none;padding:9px 20px;border-radius:50px;font-size:.82rem;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:7px;box-shadow:0 3px 14px var(--shadow);transition:all .3s}
 .btn-nav:hover{transform:translateY(-2px) scale(1.04);box-shadow:0 6px 22px var(--shadow)}
+.menu-toggle{display:none;background:transparent;border:none;color:var(--text);font-size:1.3rem;padding:4px;outline:none}
+.menu-toggle:hover{color:var(--primary)}
 /* ── SECTION UTILS ── */
 section{padding:100px 5%;position:relative;z-index:1}
 .max-w{max-width:1160px;margin:0 auto}
@@ -328,5 +330,17 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:26px 5%;t
 .fsoc{width:36px;height:36px;border-radius:50%;background:var(--pri-s);color:var(--primary);display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:.86rem;border:1px solid var(--border);transition:all .3s}
 .fsoc:hover{background:var(--primary);color:#fff;transform:translateY(-3px) rotate(8deg)}
 /* ── RESPONSIVE ── */
-@media(max-width:960px){.hero-inner,.about-grid,.contact-grid{grid-template-columns:1fr}.skills-wrap,.proj-grid{grid-template-columns:1fr}.proj-feat-grid{grid-template-columns:1fr}.proj-feat-r{border-left:none;border-top:1px solid var(--border)}.nav-links{display:none}.about-card{position:static}.hero-visual{margin-top:26px}}
+@media(max-width:960px){
+  .hero-inner,.about-grid,.contact-grid{grid-template-columns:1fr}
+  .skills-wrap,.proj-grid{grid-template-columns:1fr}
+  .proj-feat-grid{grid-template-columns:1fr}
+  .proj-feat-r{border-left:none;border-top:1px solid var(--border)}
+  .menu-toggle{display:block}
+  .nav-links{display:flex;position:fixed;top:65px;right:-100%;width:100%;height:calc(100vh - 65px);background:var(--card);flex-direction:column;align-items:center;justify-content:center;transition:right 0.4s cubic-bezier(0.4, 0, 0.2, 1);z-index:4999;border-top:1px solid var(--border);box-shadow:0 15px 30px var(--shadow)}
+  .nav-links.open{right:0}
+  .nav-links li{margin:18px 0;font-size:1.2rem}
+  .nav-links a{font-size:1.05rem}
+  .about-card{position:static}
+  .hero-visual{margin-top:26px}
+}
 @media(max-width:600px){.orb-wrap,.orb{width:240px;height:240px}.hero-btns{justify-content:center}.hero-greet{justify-content:center}.hero-stats{max-width:360px;margin:0 auto}}
