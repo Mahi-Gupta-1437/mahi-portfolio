@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import Magnetic from './Magnetic';
 const API = process.env.REACT_APP_API_URL || '';
 const phrases = ['beautiful web apps ✨','full-stack systems 💻','clean PHP backends 🐘','AI-powered platforms 🤖','experiences that matter 💜'];
 const chipAnims = [
@@ -82,9 +83,15 @@ export default function Hero({ portfolio, openPdf }) {
           <p className="hero-tagline">Full-Stack Developer &amp; CSE Student</p>
           <div className="typed-wrap">I love building <span className="typed-text">{typed}</span></div>
           <div className="hero-btns">
-            <button onClick={() => openPdf(`${API}/pdfs/MyFinalCV.pdf`, 'Mahi Gupta - CV')} className="btn-primary"><i className="fas fa-eye"/> View CV</button>
-            <a href="#contact" className="btn-outline"><i className="fas fa-paper-plane"/> Contact Me</a>
-            <a href="#projects" className="btn-outline"><i className="fas fa-code"/> Projects</a>
+            <Magnetic pull={0.25}>
+              <button onClick={() => openPdf(`${API}/pdfs/MyFinalCV.pdf`, 'Mahi Gupta - CV')} className="btn-primary"><i className="fas fa-eye"/> View CV</button>
+            </Magnetic>
+            <Magnetic pull={0.25}>
+              <a href="#contact" className="btn-outline"><i className="fas fa-paper-plane"/> Contact Me</a>
+            </Magnetic>
+            <Magnetic pull={0.25}>
+              <a href="#projects" className="btn-outline"><i className="fas fa-code"/> Projects</a>
+            </Magnetic>
           </div>
           <div className="hero-stats">
             <div className="stat rv d1"><div className="stat-num">{counts.projects}+</div><div className="stat-lbl">Projects</div></div>

@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import Magnetic from './Magnetic';
+
 export default function Navbar({ portfolio, theme, setTheme, openPdf }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [translateLoaded, setTranslateLoaded] = useState(false);
