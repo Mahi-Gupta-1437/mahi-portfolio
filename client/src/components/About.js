@@ -41,7 +41,7 @@ export default function About({ portfolio }) {
                 ))}
               </div>
               
-              <div className="achievement-mini" style={{ marginTop: '24px', padding: '16px 20px', background: 'var(--card-bg)', border: '1px solid var(--border)', borderRadius: '12px' }}>
+              <div id="achievements" className="achievement-mini" style={{ marginTop: '24px', padding: '16px 20px', background: 'var(--card-bg)', border: '1px solid var(--border)', borderRadius: '12px' }}>
                 <h4 style={{ margin: '0 0 8px 0', fontSize: '1.05rem', color: 'var(--text)', display: 'flex', alignItems: 'center', gap: '8px' }}>
                   <i className="fas fa-award" style={{ color: 'var(--accent)' }}/> Achievement
                 </h4>

@@ -6,15 +6,9 @@ export default function Navbar({ portfolio, theme, setTheme, openPdf }) {
     <nav id="main-nav">
       <div className="nav-logo">Mahi<span className="nav-dot">.</span></div>
       <ul className="nav-links">
-        {['about','skills','projects','certifications','education','contact'].map(s => {
-            const isCertifications = s === 'certifications';
-            return (
-              <React.Fragment key={s}>
-                <li><a href={`#${s}`}>{s.charAt(0).toUpperCase()+s.slice(1)}</a></li>
-                {isCertifications && <li><a href="#about" onClick={() => document.querySelector('.achievement-mini').scrollIntoView({behavior: 'smooth'})}>Achievements</a></li>}
-              </React.Fragment>
-            )
-        })}
+        {['about','achievements','skills','projects','certifications','education','contact'].map(s => (
+          <li key={s}><a href={`#${s}`}>{s.charAt(0).toUpperCase()+s.slice(1)}</a></li>
+        ))}
       </ul>
       <div className="nav-right">
         <button className="btn-theme" onClick={() => setTheme(t => t==='light'?'dark':'light')}>
