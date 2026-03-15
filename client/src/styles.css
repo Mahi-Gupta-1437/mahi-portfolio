@@ -54,6 +54,8 @@ nav.scrolled{box-shadow:0 4px 30px var(--shadow)}
 .goog-logo-link{display:none!important}
 .goog-te-banner-frame{display:none!important}
 body{top:0!important}
+.goog-te-menu-frame{max-width:100vw!important;max-height:80vh!important;overflow-y:auto!important;box-shadow:0 10px 40px var(--shadow)!important;border-radius:12px!important}
+@media(max-width:600px){.goog-te-menu-frame{left:5px!important;right:5px!important;width:calc(100vw - 10px)!important}}
 /* ── SECTION UTILS ── */
 section{padding:100px 5%;position:relative;z-index:1}
 .max-w{max-width:1160px;margin:0 auto}
