@@ -50,6 +50,8 @@ nav.scrolled{box-shadow:0 4px 30px var(--shadow)}
 .gt-widget{display:flex;align-items:center;margin-right:2px;border-radius:6px;max-height:36px;min-width:90px}
 .custom-lang-select{margin:0;padding:5px 8px;border-radius:6px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:.75rem;font-family:inherit;outline:none;cursor:pointer;max-width:130px;appearance:auto;-webkit-appearance:auto}
 .custom-lang-select:focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--pri-s)}
+.btn-reset-lang{background:var(--pri-s);color:var(--primary);border:1px solid var(--border);padding:4px 8px;border-radius:6px;font-size:.68rem;font-weight:800;letter-spacing:.04em;cursor:pointer;transition:all .3s;flex-shrink:0;margin-left:3px}
+.btn-reset-lang:hover{background:var(--primary);color:#fff;border-color:var(--primary);transform:translateY(-1px)}
 /* Hide any Google Translate UI that leaks through */
 .goog-te-gadget{font-size:0!important;color:transparent!important}
 .goog-te-gadget span{display:none!important}

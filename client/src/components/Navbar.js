@@ -159,6 +159,22 @@ export default function Navbar({ portfolio, theme, setTheme, openPdf }) {
     window.location.reload();
   };
 
+  const resetToEnglish = () => {
+    // Clear google translate cookies
+    const domain = window.location.hostname;
+    document.cookie = `googtrans=;path=/;domain=${domain};expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+    document.cookie = `googtrans=;path=/;expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+    // Try to reset via the hidden combo box
+    const combo = document.querySelector('.goog-te-combo');
+    if (combo) {
+      combo.value = 'en';
+      combo.dispatchEvent(new Event('change'));
+      if (selectRef.current) selectRef.current.value = '';
+      return;
+    }
+    window.location.reload();
+  };
+
   if (!portfolio) return null;
   return (
     <nav id="main-nav">
@@ -199,6 +215,14 @@ export default function Navbar({ portfolio, theme, setTheme, openPdf }) {
               <option key={l.code} value={l.code}>{l.label}</option>
             ))}
           </select>
+          <button
+            className="btn-reset-lang"
+            onClick={resetToEnglish}
+            title="Reset to English"
+            aria-label="Reset to English"
+          >
+            EN
+          </button>
         </div>
         <button className="btn-theme" onClick={() => setTheme(t => t==='light'?'dark':'light')} title="Toggle Theme">
           {theme==='light'?'🌙':'☀️'}
