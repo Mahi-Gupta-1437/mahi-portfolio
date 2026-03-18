@@ -78,6 +78,17 @@ app.get('/api/certifications', (req, res) => res.json([
   {id:15,group:'soft',title:'Microsoft Excel — Beginner to Advanced (21 hrs)',platform:'Udemy',date:'Dec 2023',emoji:'📋',file:'excel_mooc_certificate_udemy__1_.pdf'}
 ]));
 
+app.get('/api/achievements', (req, res) => res.json([
+  {
+    id: 1,
+    title: 'Data Structures & Algorithms',
+    desc: 'Solved <b>250+ Data Structures and Algorithms</b> problems across LeetCode and GeeksforGeeks, strengthening algorithmic thinking and problem-solving skills.',
+    emoji: '🏆',
+    icon: 'fa-award',
+    color: 'var(--accent)'
+  }
+]));
+
 app.get('/api/education', (req, res) => res.json([
   {id:1,period:'Jun – Jul 2025',title:'Summer Training — LPU',subtitle:'Built Acadex: Real-Time Academic Monitoring Platform',desc:'Full-stack experience, database optimization, data-driven systems across 5+ departments.',emoji:'💼',color:'#e07fa3'},
   {id:2,period:'Jul 2023 – Present',title:'B.Tech Computer Science & Engineering',subtitle:'Lovely Professional University, Punjab',score:'CGPA: 8.51',emoji:'🎓',color:'#7c5cbf'},

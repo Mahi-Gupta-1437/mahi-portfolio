@@ -180,22 +180,7 @@ export default function Navbar({ portfolio, theme, setTheme, openPdf, showTimeBa
     <nav id="main-nav">
       <div className="nav-logo notranslate" translate="no">Mahi<span className="nav-dot">.</span></div>
       <ul className={`nav-links ${isMenuOpen ? 'open' : ''}`}>
-        {['about','achievements','skills','projects','certifications','education','contact'].map(s => {
-          if (s === 'achievements') {
-            return (
-              <li key={s}>
-                <a href="#about" onClick={(e) => {
-                  e.preventDefault();
-                  setIsMenuOpen(false);
-                  const el = document.getElementById('achievements');
-                  if (el) {
-                    const y = el.getBoundingClientRect().top + window.scrollY - 100; // offset for navbar
-                    window.scrollTo({top: y, behavior: 'smooth'});
-                  }
-                }}>Achievements</a>
-              </li>
-            );
-          }
+        {['about','skills','projects','certifications','achievements','education','contact'].map(s => {
           return <li key={s}><a href={`#${s}`} onClick={() => setIsMenuOpen(false)}>{s.charAt(0).toUpperCase()+s.slice(1)}</a></li>;
         })}
         <li className="nav-cv-mobile"><a href="#" onClick={(e) => { e.preventDefault(); setIsMenuOpen(false); openPdf(`${API}/pdfs/MyFinalCV.pdf`, 'Mahi Gupta - CV'); }}><i className="fas fa-eye"/> View CV</a></li>

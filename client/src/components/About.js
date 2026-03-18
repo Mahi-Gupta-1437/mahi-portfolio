@@ -40,15 +40,6 @@ export default function About({ portfolio }) {
                   </div>
                 ))}
               </div>
-              
-              <div id="achievements" className="achievement-mini" style={{ marginTop: '24px', padding: '16px 20px', background: 'var(--card-bg)', border: '1px solid var(--border)', borderRadius: '12px' }}>
-                <h4 style={{ margin: '0 0 8px 0', fontSize: '1.05rem', color: 'var(--text)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <i className="fas fa-award" style={{ color: 'var(--accent)' }}/> Achievement
-                </h4>
-                <p style={{ margin: 0, fontSize: '0.95rem', color: 'var(--text-light)', lineHeight: '1.6' }}>
-                  Solved <b>250+ Data Structures and Algorithms</b> problems across LeetCode and GeeksforGeeks, strengthening algorithmic thinking and problem-solving skills.
-                </p>
-              </div>
             </div>
           </div>
         </div>

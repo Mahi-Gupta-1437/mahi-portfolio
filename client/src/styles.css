@@ -265,7 +265,7 @@ section{padding:100px 5%;position:relative;z-index:1}
 .cert-title-txt{font-size:.85rem;font-weight:600;color:var(--text);line-height:1.35}
 .cert-date-txt{font-size:.7rem;color:var(--text3);display:flex;align-items:center;gap:4px;margin-top:5px}
 /* ── EDUCATION ── */
-#education{background:var(--bg2)}
+#education{background:var(--bg)}
 .timeline{position:relative;max-width:760px;margin:0 auto}
 .timeline::before{content:'';position:absolute;left:25px;top:0;bottom:0;width:2px;background:linear-gradient(180deg,var(--primary),var(--accent) 70%,transparent)}
 .tl-item{display:flex;gap:26px;margin-bottom:32px;padding-left:8px;opacity:0;transform:translateX(-28px);transition:all .6s}
@@ -343,6 +343,72 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:26px 5%;t
 .foot-socials{display:flex;justify-content:center;gap:13px;margin-top:14px}
 .fsoc{width:36px;height:36px;border-radius:50%;background:var(--pri-s);color:var(--primary);display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:.86rem;border:1px solid var(--border);transition:all .3s}
 .fsoc:hover{background:var(--primary);color:#fff;transform:translateY(-3px) rotate(8deg)}
+/* ── ACHIEVEMENTS ── */
+.achievements-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+  margin-top: 40px;
+}
+.achievement-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 32px;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 20px var(--shadow);
+}
+.achievement-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 48px var(--shadow);
+  border-color: var(--primary);
+}
+.ach-icon-box {
+  width: 56px;
+  height: 56px;
+  background: var(--pri-s);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  color: var(--primary);
+  transition: all 0.3s;
+}
+.achievement-card:hover .ach-icon-box {
+  background: var(--primary);
+  color: #fff;
+  transform: scale(1.1) rotate(5deg);
+}
+.ach-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.35rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+.ach-desc {
+  color: var(--text2);
+  line-height: 1.7;
+  font-size: 0.94rem;
+}
+.ach-emoji {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  font-size: 2.2rem;
+  opacity: 0.1;
+  transform: rotate(15deg);
+  transition: all 0.5s;
+}
+.achievement-card:hover .ach-emoji {
+  opacity: 0.2;
+  transform: rotate(0deg) scale(1.2);
+}
+
 /* ── RESPONSIVE ── */
 @media(max-width:960px){
   .hero-inner,.about-grid,.contact-grid{grid-template-columns:1fr}

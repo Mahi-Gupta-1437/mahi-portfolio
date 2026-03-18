@@ -8,6 +8,7 @@ import Marquee from './components/Marquee';
 import About from './components/About';
 import Skills from './components/Skills';
 import Projects from './components/Projects';
+import Achievements from './components/Achievements';
 import Certifications from './components/Certifications';
 import Education from './components/Education';
 import Contact from './components/Contact';
@@ -24,6 +25,7 @@ export default function App() {
   const [portfolio, setPortfolio] = useState(null);
   const [skills, setSkills] = useState([]);
   const [projects, setProjects] = useState([]);
+  const [achievements, setAchievements] = useState([]);
   const [certs, setCerts] = useState([]);
   const [education, setEducation] = useState([]);
   const [timeStr, setTimeStr] = useState('');
@@ -34,15 +36,16 @@ export default function App() {
   useEffect(() => {
     const load = async () => {
       try {
-        const [p, s, pr, c, e] = await Promise.all([
+        const [p, s, pr, a, c, e] = await Promise.all([
           axios.get(`${API}/api/portfolio`),
           axios.get(`${API}/api/skills`),
           axios.get(`${API}/api/projects`),
+          axios.get(`${API}/api/achievements`),
           axios.get(`${API}/api/certifications`),
           axios.get(`${API}/api/education`),
         ]);
         setPortfolio(p.data); setSkills(s.data); setProjects(pr.data);
-        setCerts(c.data); setEducation(e.data);
+        setAchievements(a.data); setCerts(c.data); setEducation(e.data);
       } catch(err) { console.error('API error:', err.message); }
       setTimeout(() => setLoaded(true), 1600);
     };
@@ -98,6 +101,7 @@ export default function App() {
       <Skills skills={skills} />
       <Projects projects={projects} openPdf={openPdf} />
       <Certifications certs={certs} openPdf={openPdf} />
+      <Achievements achievements={achievements} />
       <Education education={education} />
       <Contact portfolio={portfolio} />
       <Footer portfolio={portfolio} />
