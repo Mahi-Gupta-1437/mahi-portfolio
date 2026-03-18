@@ -36,18 +36,36 @@ export default function App() {
   useEffect(() => {
     const load = async () => {
       try {
-        const [p, s, pr, a, c, e] = await Promise.all([
-          axios.get(`${API}/api/portfolio`),
-          axios.get(`${API}/api/skills`),
-          axios.get(`${API}/api/projects`),
-          axios.get(`${API}/api/achievements`),
-          axios.get(`${API}/api/certifications`),
-          axios.get(`${API}/api/education`),
-        ]);
-        setPortfolio(p.data); setSkills(s.data); setProjects(pr.data);
-        setAchievements(a.data); setCerts(c.data); setEducation(e.data);
-      } catch(err) { console.error('API error:', err.message); }
-      setTimeout(() => setLoaded(true), 1600);
+        const endpoints = [
+          { key: 'portfolio', url: `${API}/api/portfolio` },
+          { key: 'skills', url: `${API}/api/skills` },
+          { key: 'projects', url: `${API}/api/projects` },
+          { key: 'achievements', url: `${API}/api/achievements` },
+          { key: 'certs', url: `${API}/api/certifications` },
+          { key: 'education', url: `${API}/api/education` },
+        ];
+
+        const results = await Promise.allSettled(endpoints.map(e => axios.get(e.url)));
+        
+        results.forEach((res, i) => {
+          if (res.status === 'fulfilled') {
+            const data = res.value.data;
+            const key = endpoints[i].key;
+            if (key === 'portfolio') setPortfolio(data);
+            else if (key === 'skills') setSkills(data);
+            else if (key === 'projects') setProjects(data);
+            else if (key === 'achievements') setAchievements(data);
+            else if (key === 'certs') setCerts(data);
+            else if (key === 'education') setEducation(data);
+          } else {
+            console.warn(`API failed for ${endpoints[i].key}:`, res.reason.message);
+          }
+        });
+      } catch(err) { 
+        console.error('Core API error:', err.message); 
+      } finally {
+        setTimeout(() => setLoaded(true), 1600);
+      }
     };
     load();
   }, []);
@@ -100,8 +118,8 @@ export default function App() {
       <About portfolio={portfolio} />
       <Skills skills={skills} />
       <Projects projects={projects} openPdf={openPdf} />
-      <Certifications certs={certs} openPdf={openPdf} />
       <Achievements achievements={achievements} />
+      <Certifications certs={certs} openPdf={openPdf} />
       <Education education={education} />
       <Contact portfolio={portfolio} />
       <Footer portfolio={portfolio} />

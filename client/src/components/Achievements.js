@@ -7,7 +7,7 @@ export default function Achievements({ achievements }) {
   if (!achievements || achievements.length === 0) return null;
 
   return (
-    <section id="achievements" ref={ref} style={{ background: 'var(--bg2)' }}>
+    <section id="achievements" ref={ref} style={{ background: 'var(--bg)' }}>
       <div className="max-w">
         <div className="sec-head center rv">
           <span className="sec-tag">Milestones & Recognition</span>

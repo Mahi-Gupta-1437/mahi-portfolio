@@ -180,7 +180,7 @@ export default function Navbar({ portfolio, theme, setTheme, openPdf, showTimeBa
     <nav id="main-nav">
       <div className="nav-logo notranslate" translate="no">Mahi<span className="nav-dot">.</span></div>
       <ul className={`nav-links ${isMenuOpen ? 'open' : ''}`}>
-        {['about','skills','projects','certifications','achievements','education','contact'].map(s => {
+        {['about','skills','projects','achievements','certifications','education','contact'].map(s => {
           return <li key={s}><a href={`#${s}`} onClick={() => setIsMenuOpen(false)}>{s.charAt(0).toUpperCase()+s.slice(1)}</a></li>;
         })}
         <li className="nav-cv-mobile"><a href="#" onClick={(e) => { e.preventDefault(); setIsMenuOpen(false); openPdf(`${API}/pdfs/MyFinalCV.pdf`, 'Mahi Gupta - CV'); }}><i className="fas fa-eye"/> View CV</a></li>
