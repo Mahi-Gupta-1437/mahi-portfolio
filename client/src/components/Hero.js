@@ -16,7 +16,15 @@ export default function Hero({ portfolio, openPdf }) {
   const [cmdLines, setCmdLines] = useState([{cmd:'',out:'',visible:false},{cmd:'',out:'',visible:false},{cmd:'',out:'',visible:false}]);
   const [blinkVisible, setBlinkVisible] = useState(false);
   const [scrollY, setScrollY] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
   const pi = useRef(0), ci = useRef(0), del = useRef(false);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 960);
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -80,9 +88,9 @@ export default function Hero({ portfolio, openPdf }) {
 
   return (
     <section id="hero" style={{position:'relative'}}>
-      <div className="aurora" style={{ transform: `translateY(${scrollY * 0.45}px)` }}/>
-      <div className="hero-grid" style={{ transform: `translateY(${scrollY * 0.25}px)` }}/>
-      <div className="hero-inner max-w" style={{ transform: `translateY(${scrollY * 0.15}px)` }}>
+      <div className="aurora" style={{ transform: `translateY(${isMobile ? 0 : scrollY * 0.45}px)` }}/>
+      <div className="hero-grid" style={{ transform: `translateY(${isMobile ? 0 : scrollY * 0.25}px)` }}/>
+      <div className="hero-inner max-w" style={{ transform: `translateY(${isMobile ? 0 : scrollY * 0.15}px)` }}>
         <div>
           <div className="hero-greet">Welcome to my portfolio <span className="wave">✨</span></div>
           <h1 className="hero-name notranslate" translate="no">
