@@ -1,25 +1,41 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import useReveal from '../hooks/useReveal';
 const API = process.env.REACT_APP_API_URL || '';
 export default function Contact({ portfolio }) {
   const ref = useReveal();
-  const [form, setForm] = useState({name:'',email:'',subject:'',message:''});
+  const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });
   const [status, setStatus] = useState(null);
   const [loading, setLoading] = useState(false);
-  const handleChange = e => setForm(f=>({...f,[e.target.name]:e.target.value}));
+
+  // Pre-warm the Render server when Contact section mounts
+  useEffect(() => {
+    axios.get(`${API}/api/portfolio`, { timeout: 10000 }).catch(() => {});
+  }, []);
+
+  const handleChange = e => setForm(f => ({ ...f, [e.target.name]: e.target.value }));
+  const sendRequest = () => axios.post(`${API}/api/contact`, form, { timeout: 35000 });
   const handleSubmit = async e => {
     e.preventDefault(); setLoading(true); setStatus(null);
     try {
-      const res = await axios.post(`${API}/api/contact`, form);
-      setStatus({type:'success',msg:res.data.message});
-      setForm({name:'',email:'',subject:'',message:''});
-    } catch(err) {
-      setStatus({type:'error',msg:err.response?.data?.error||'Something went wrong.'});
+      const res = await sendRequest();
+      setStatus({ type: 'success', msg: res.data.message });
+      setForm({ name: '', email: '', subject: '', message: '' });
+    } catch (err) {
+      // Auto-retry once to handle Render free-tier cold start (~30s wake-up)
+      try {
+        setStatus({ type: 'info', msg: '⏳ Server is waking up, retrying automatically...' });
+        await new Promise(r => setTimeout(r, 4000));
+        const res = await sendRequest();
+        setStatus({ type: 'success', msg: res.data.message });
+        setForm({ name: '', email: '', subject: '', message: '' });
+      } catch (err2) {
+        setStatus({ type: 'error', msg: err2.response?.data?.error || 'Something went wrong. Please try again.' });
+      }
     }
     setLoading(false);
   };
-  if(!portfolio) return null;
+  if (!portfolio) return null;
   return (
     <section id="contact" ref={ref}>
       <div className="max-w">
@@ -78,7 +94,7 @@ export default function Contact({ portfolio }) {
                 <button type="submit" className="btn-submit" disabled={loading}>
                   {loading ? <><i className="fas fa-spinner fa-spin"/> Sending...</> : <><i className="fas fa-paper-plane"/> Send Message</>}
                 </button>
-                {status && <div className={status.type==='success'?'form-success':'form-error'}>{status.msg}</div>}
+                {status && <div className={status.type==='success'?'form-success':status.type==='info'?'form-info':'form-error'}>{status.msg}</div>}
               </form>
             </div>
           </div>

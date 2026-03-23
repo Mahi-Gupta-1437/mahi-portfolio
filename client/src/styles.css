@@ -333,6 +333,8 @@ section{padding:100px 5%;position:relative;z-index:1}
 .btn-submit:disabled{opacity:.7}
 .form-success{background:rgba(58,170,140,.12);border:1px solid rgba(58,170,140,.35);border-radius:11px;padding:13px 16px;color:#3aaa8c;font-size:.85rem;font-weight:600;margin-top:14px;text-align:center}
 .form-error{background:rgba(224,127,163,.12);border:1px solid rgba(224,127,163,.35);border-radius:11px;padding:13px 16px;color:var(--accent);font-size:.85rem;font-weight:600;margin-top:14px;text-align:center}
+.form-info{background:rgba(124,92,191,.1);border:1px solid rgba(124,92,191,.3);border-radius:11px;padding:13px 16px;color:var(--primary);font-size:.85rem;font-weight:600;margin-top:14px;text-align:center}
+
 /* ── BTT ── */
 #btt{position:fixed;bottom:26px;right:26px;width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;border:none;font-size:.95rem;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 18px var(--shadow);z-index:2000;opacity:0;pointer-events:none;transition:all .35s}
 #btt.show{opacity:1;pointer-events:all}
