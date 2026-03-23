@@ -6,7 +6,8 @@ export default function TagCloud({ texts }) {
   const [hovered, setHovered] = useState(false);
   const [currentRadius, setCurrentRadius] = useState(140);
   
-  const speed = 0.0002;
+  const speed = 0.00006;
+
 
   const hoveredRef = useRef(false);
   const mouseXRef = useRef(0);
