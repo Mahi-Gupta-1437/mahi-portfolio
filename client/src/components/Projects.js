@@ -38,6 +38,9 @@ export default function Projects({ projects, openPdf }) {
                 <div className="tech-row">{featured.tech.map((t,i)=><span key={i} className="tech-tag">{t}</span>)}</div>
                 <div className="proj-links-row">
                   <a href={featured.github} target="_blank" rel="noreferrer" className="proj-link"><i className="fab fa-github"/> View on GitHub <i className="fas fa-arrow-right"/></a>
+                  {featured.liveDemo && (
+                    <a href={featured.liveDemo} target="_blank" rel="noreferrer" className="proj-link proj-link-showcase"><i className="fas fa-external-link-alt"/> Live Demo <i className="fas fa-arrow-right"/></a>
+                  )}
                   {featured.showcaseUrl && (
                     <a href={featured.showcaseUrl} target="_blank" rel="noreferrer" className="proj-link proj-link-showcase"><i className="fas fa-eye"/> {featured.showcaseLabel || 'View Showcase'} <i className="fas fa-arrow-right"/></a>
                   )}
@@ -86,6 +89,9 @@ export default function Projects({ projects, openPdf }) {
                 <div className="tech-row">{p.tech.map((t,j)=><span key={j} className="tech-tag">{t}</span>)}</div>
                 <div className="proj-links-row">
                   <a href={p.github} target="_blank" rel="noreferrer" className="proj-link"><i className="fab fa-github"/> GitHub <i className="fas fa-arrow-right"/></a>
+                  {p.liveDemo && (
+                    <a href={p.liveDemo} target="_blank" rel="noreferrer" className="proj-link proj-link-showcase"><i className="fas fa-external-link-alt"/> Live Demo <i className="fas fa-arrow-right"/></a>
+                  )}
                   {p.showcaseUrl && (
                     <a href={p.showcaseUrl} target="_blank" rel="noreferrer" className="proj-link proj-link-showcase"><i className="fas fa-eye"/> {p.showcaseLabel || 'View Showcase'} <i className="fas fa-arrow-right"/></a>
                   )}
