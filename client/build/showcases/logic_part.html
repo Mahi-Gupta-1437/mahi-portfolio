@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aetheria Heights Ã¢â‚¬â€ Admin Portal Showcase</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8C97A;
+    --gold-dim: #7a6230;
+    --bg: #050810;
+    --bg2: #090d1a;
+    --bg3: #0d1224;
+    --surface: #111827;
+    --border: rgba(201,168,76,0.18);
+    --text: #e8e4d9;
+    --text-dim: #8a8070;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* Ambient background */
+  canvas#bg-c {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .bg-glow {
+    position: fixed;
+    inset: 0;
+    background: 
+      radial-gradient(circle at 20% 20%, rgba(201,168,76,0.05) 0%, transparent 40%),
+      radial-gradient(circle at 80% 80%, rgba(201,168,76,0.05) 0%, transparent 40%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ========== HERO ========== */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 80px 40px 60px;
+    text-align: center;
+    z-index: 1;
+  }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    border: 1px solid var(--border);
+    background: rgba(201,168,76,0.06);
+    padding: 6px 18px;
+    font-size: 0.68rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border-radius: 2px;
+    margin-bottom: 36px;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .hero-badge::before {
+    content: '';
+    width: 20px; height: 1px;
+    background: var(--gold);
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    font-weight: 300;
+    line-height: 0.95;
+    letter-spacing: -0.01em;
+    color: var(--text);
+    animation: fadeUp 0.8s 0.1s ease both;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold-light);
+  }
+
+  .hero-divider {
+    width: 60px; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 32px auto;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+
+  .hero-subtitle {
+    font-size: 0.9rem;
+    letter-spacing: 0.08em;
+    color: var(--text-dim);
+    max-width: 480px;
+    line-height: 1.8;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+
+  .hero-stats {
+    display: flex; gap: 48px;
+    margin-top: 56px;
+    animation: fadeUp 0.8s 0.4s ease both;
+  }
+
+  .stat {
+    text-align: center;
+  }
+
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.4rem;
+    font-weight: 300;
+    color: var(--gold);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-top: 6px;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 40px;
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    animation: fadeUp 1s 0.8s ease both;
+  }
+
+  .scroll-hint span {
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+
+  .scroll-line {
+    width: 1px; height: 40px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+
+  /* ========== SECTION LABELS ========== */
+  .section-label {
+    text-align: center;
+    padding: 80px 40px 40px;
+    position: relative; z-index: 1;
+  }
+
+  .section-label h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 300;
+    color: var(--text);
+  }
+
+  .section-label p {
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    color: var(--text-dim);
+    margin-top: 12px;
+    text-transform: uppercase;
+  }
+
+  /* ========== CAROUSEL ========== */
+  .carousel-section {
+    position: relative; z-index: 1;
+    padding: 0 0 80px;
+  }
+
+  .carousel-track-wrap {
+    position: relative;
+    padding: 60px 0 100px;
+    perspective: 2000px;
+    overflow: visible;
+  }
+
+  .carousel-track {
+    position: relative;
+    width: 100%;
+    height: 460px;
+    transform-style: preserve-3d;
+    transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .carousel-card {
+    position: absolute;
+    top: 0; left: 50%;
+    width: 720px;
+    margin-left: -360px;
+    cursor: pointer;
+    transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+    opacity: 0;
+    pointer-events: none;
+    will-change: transform, opacity;
+  }
+
+  .carousel-card.active {
+    opacity: 1;
+    z-index: 10;
+    transform: translate3d(0, 0, 0) scale(1);
+    pointer-events: auto;
+  }
+
+  .carousel-card.prev {
+    opacity: 0.4;
+    z-index: 5;
+    transform: translate3d(-450px, 0, -300px) rotateY(25deg) scale(0.85);
+    pointer-events: auto;
+  }
+
+  .carousel-card.next {
+    opacity: 0.4;
+    z-index: 5;
+    transform: translate3d(450px, 0, -300px) rotateY(-25deg) scale(0.85);
+    pointer-events: auto;
+  }
+
+  .carousel-card.prev2 {
+    opacity: 0.15;
+    z-index: 2;
+    transform: translate3d(-750px, 0, -600px) rotateY(35deg) scale(0.7);
+  }
+
+  .carousel-card.next2 {
+    opacity: 0.15;
+    z-index: 2;
+    transform: translate3d(750px, 0, -600px) rotateY(-35deg) scale(0.7);
+  }
+
+  .card-frame {
+    position: relative;
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    box-shadow:
+      0 0 0 1px rgba(201,168,76,0.05),
+      0 30px 80px rgba(0,0,0,0.6),
+      0 0 100px rgba(201,168,76,0.06);
+  }
+
+  .card-frame::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg,
+      rgba(201,168,76,0.08) 0%,
+      transparent 50%,
+      rgba(201,168,76,0.03) 100%);
+    pointer-events: none; z-index: 2;
+  }
+
+  .card-img {
+    display: block;
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    object-position: top;
+    transition: transform 0.6s ease;
+  }
+
+  .carousel-card.active .card-img:hover {
+    transform: scale(1.02);
+  }
+
+  .card-overlay {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    background: linear-gradient(to top, rgba(5,8,16,0.95) 0%, rgba(5,8,16,0.5) 60%, transparent 100%);
+    padding: 28px 28px 24px;
+    z-index: 3;
+  }
+
+  .card-tag {
+    font-size: 0.6rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid rgba(201,168,76,0.35);
+    padding: 3px 10px;
+    display: inline-block;
+    margin-bottom: 10px;
+    border-radius: 2px;
+  }
+
+  .card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--text);
+    line-height: 1.2;
+  }
+
+  .card-desc {
+    font-size: 0.78rem;
+    color: var(--text-dim);
+    line-height: 1.7;
+    margin-top: 6px;
+  }
+
+  .card-expand {
+    position: absolute;
+    top: 16px; right: 16px;
+    width: 36px; height: 36px;
+    border: 1px solid var(--border);
+    background: rgba(5,8,16,0.7);
+    border-radius: 2px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    z-index: 4;
+    opacity: 0;
+    transition: opacity 0.3s ease, background 0.3s;
+    color: var(--gold);
+    font-size: 0.9rem;
+  }
+
+  .carousel-card.active .card-frame:hover .card-expand {
+    opacity: 1;
+  }
+
+  .card-expand:hover {
+    background: rgba(201,168,76,0.15) !important;
+  }
+
+  /* Carousel nav */
+  .carousel-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding-top: 16px;
+  }
+
+  .nav-btn {
+    width: 44px; height: 44px;
+    border: 1px solid var(--border);
+    background: transparent;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--gold);
+    font-size: 1rem;
+    transition: all 0.3s;
+    border-radius: 2px;
+  }
+
+  .nav-btn:hover {
+    background: rgba(201,168,76,0.1);
+    border-color: var(--gold);
+  }
+
+  .nav-dots {
+    display: flex; gap: 8px; align-items: center;
+  }
+
+  .nav-dot {
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: var(--text-dim);
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .nav-dot.active {
+    background: var(--gold);
+    width: 20px;
+    border-radius: 2px;
+  }
+
+  /* ========== GRID SECTION ========== */
+  .grid-section {
+    position: relative; z-index: 1;
+    padding: 0 60px 100px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .grid-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    margin-bottom: 32px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+
+  .screens-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+
+  .grid-item {
+    position: relative;
+    border-radius: 3px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s;
+    aspect-ratio: 16/10;
+  }
+
+  .grid-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 0 1px rgba(201,168,76,0.2);
+    border-color: rgba(201,168,76,0.3);
+  }
+
+  .grid-item img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: top;
+    transition: transform 0.5s ease;
+  }
+
+  .grid-item:hover img {
+    transform: scale(1.04);
+  }
+
+  .grid-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(5,8,16,0.9) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    display: flex; flex-direction: column;
+    justify-content: flex-end;
+    padding: 16px;
+  }
+
+  .grid-item:hover .grid-overlay {
+    opacity: 1;
+  }
+
+  .grid-item-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.05rem;
+    color: var(--text);
+  }
+
+  .grid-item-tag {
+    font-size: 0.58rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-top: 4px;
+  }
+
+  /* ========== LIGHTBOX ========== */
+  .lightbox {
+    position: fixed; inset: 0;
+    background: rgba(5,8,16,0.97);
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 40px;
+  }
+
+  .lightbox.open {
+    display: flex;
+    animation: fadeIn 0.3s ease;
+  }
+
+  .lb-header {
+    display: flex; align-items: flex-start;
+    justify-content: space-between;
+    width: 100%; max-width: 1200px;
+    margin-bottom: 20px;
+  }
+
+  .lb-title-area .lb-tag {
+    font-size: 0.6rem; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--gold);
+    margin-bottom: 6px;
+  }
+
+  .lb-title-area h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem; font-weight: 300;
+    color: var(--text);
+  }
+
+  .lb-close {
+    width: 40px; height: 40px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-dim);
+    cursor: pointer;
+    font-size: 1.2rem;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.3s;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .lb-close:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  .lb-img-wrap {
+    width: 100%; max-width: 1200px;
+    flex: 1;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+  }
+
+  .lb-img-wrap img {
+    max-width: 100%;
+    max-height: calc(100vh - 200px);
+    object-fit: contain;
+    border-radius: 3px;
+  }
+
+  .lb-footer {
+    display: flex; align-items: center;
+    justify-content: space-between;
+    width: 100%; max-width: 1200px;
+    margin-top: 16px;
+  }
+
+  .lb-desc {
+    font-size: 0.8rem; color: var(--text-dim);
+    max-width: 600px; line-height: 1.7;
+  }
+
+  .lb-counter {
+    font-size: 0.7rem; letter-spacing: 0.15em;
+    color: var(--gold-dim);
+    font-family: 'Cormorant Garamond', serif;
+  }
+
+  .lb-nav {
+    display: flex; gap: 10px;
+  }
+
+  .lb-nav button {
+    width: 38px; height: 38px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--gold);
+    cursor: pointer; font-size: 0.9rem;
+    transition: all 0.3s;
+    border-radius: 2px;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .lb-nav button:hover {
+    background: rgba(201,168,76,0.1);
+    border-color: var(--gold);
+  }
+
+  /* ========== TECH FOOTER ========== */
+  .tech-footer {
+    position: relative; z-index: 1;
+    border-top: 1px solid var(--border);
+    padding: 60px 60px 80px;
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 40px;
+    align-items: start;
+  }
+
+  .tech-footer h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem; font-weight: 300;
+    color: var(--gold-light);
+    margin-bottom: 20px;
+  }
+
+  .tech-tags {
+    display: flex; flex-wrap: wrap; gap: 8px;
+  }
+
+  .tech-tag {
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    border: 1px solid var(--border);
+    padding: 5px 12px;
+    border-radius: 2px;
+    color: var(--text-dim);
+  }
+
+  .footer-meta {
+    text-align: right;
+  }
+
+  .footer-meta .name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    color: var(--gold);
+  }
+
+  .footer-meta .role {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-top: 6px;
+  }
+
+  /* ========== ANIMATIONS ========== */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; } to { opacity: 1; }
+  }
+
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+  }
+
+  @media (max-width: 768px) {
+    .carousel-card { width: 90vw; }
+    .carousel-track { padding: 0 5vw; }
+    .hero-stats { gap: 28px; }
+    .grid-section { padding: 0 20px 80px; }
+    .tech-footer { grid-template-columns: 1fr; padding: 40px 20px 60px; }
+    .footer-meta { text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">Portfolio Showcase</div>
+  <h1 class="hero-title">Aetheria Heights<br><em>Admin Portal</em></h1>
+  <div class="hero-divider"></div>
+  <p class="hero-subtitle">A full-stack hotel management system Ã¢â‚¬â€ MERN stack admin dashboard with complete operational control over all hotel resources.</p>
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-num">16</div>
+      <div class="stat-label">Screens</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">9</div>
+      <div class="stat-label">Modules</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">MERN</div>
+      <div class="stat-label">Stack</div>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <span>Explore</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- CAROUSEL SECTION -->
+<div class="section-label">
+  <p>Final Five Modules</p>
+  <h2>Dining Ã‚Â· Reports Ã‚Â· Feedback Ã‚Â· Settings</h2>
+</div>
+
+<section class="carousel-section">
+  <div class="carousel-track-wrap">
+    <div class="carousel-track" id="carouselTrack">
+    </div>
+  </div>
+  <div class="carousel-nav">
+    <button class="nav-btn" id="prevBtn">&#8592;</button>
+    <div class="nav-dots" id="navDots"></div>
+    <button class="nav-btn" id="nextBtn">&#8594;</button>
+  </div>
+</section>
+
+<!-- GRID SECTION -->
+<section class="grid-section">
+  <div class="grid-label">
+    <span>All Screens Ã¢â‚¬â€ Admin Portal</span>
+    <span id="gridCount"></span>
+  </div>
+  <div class="screens-grid" id="screensGrid"></div>
+</section>
+
+<!-- TECH STACK FOOTER -->
+<footer class="tech-footer">
+  <div>
+    <h3>Technology Stack</h3>
+    <div class="tech-tags">
+      <span class="tech-tag">React.js</span>
+      <span class="tech-tag">Node.js</span>
+      <span class="tech-tag">Express.js</span>
+      <span class="tech-tag">MongoDB</span>
+      <span class="tech-tag">Mongoose</span>
+      <span class="tech-tag">JWT Auth</span>
+      <span class="tech-tag">REST API</span>
+      <span class="tech-tag">Chart.js</span>
+      <span class="tech-tag">CSS Modules</span>
+      <span class="tech-tag">Multer</span>
+      <span class="tech-tag">PDF Export</span>
+      <span class="tech-tag">CSV Export</span>
+    </div>
+  </div>
+  <div class="footer-meta">
+    <div class="name">Mahi Gupta</div>
+    <div class="role">CSE Student Ã‚Â· LPU</div>
+  </div>
+</footer>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <div class="lb-header">
+    <div class="lb-title-area">
+      <div class="lb-tag" id="lbTag"></div>
+      <h3 id="lbTitle"></h3>
+    </div>
+    <button class="lb-close" id="lbClose">&#x2715;</button>
+  </div>
+  <div class="lb-img-wrap">
+    <img id="lbImg" src="" alt="">
+  </div>
+  <div class="lb-footer">
+    <div class="lb-desc" id="lbDesc"></div>
+    <div style="display:flex;align-items:center;gap:16px">
+      <span class="lb-counter" id="lbCounter"></span>
+      <div class="lb-nav">
+        <button id="lbPrev">&#8592;</button>
+        <button id="lbNext">&#8594;</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
