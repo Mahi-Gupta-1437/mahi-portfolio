@@ -92,8 +92,8 @@ app.get('/api/achievements', (req, res) => res.json([
 app.get('/api/education', (req, res) => res.json([
   {id:1,period:'Jun – Jul 2025',title:'Summer Training — LPU',subtitle:'Built Acadex: Real-Time Academic Monitoring Platform',desc:'Full-stack experience, database optimization, data-driven systems across 5+ departments.',emoji:'💼',color:'#e07fa3',certificate:'certificates/cert-lpu-summer.jpg'},
   {id:2,period:'Jul 2023 – Present',title:'B.Tech Computer Science & Engineering',subtitle:'Lovely Professional University, Punjab',score:'CGPA: 8.51',emoji:'🎓',color:'#7c5cbf'},
-  {id:3,period:'November 2025',title:'Cybersecurity Workshop — AWS',subtitle:'Industry workshop on cloud security & best practices',emoji:'☁️',color:'#ff9900',certificate:'certificates/cert-aws-cybersecurity.jpg'},
-  {id:4,period:'March 2024',title:'Code-A-Haunt Hackathon',subtitle:'24-Hour Web Development Hackathon',desc:'Collaborated in a team to build and deploy a web project under 24-hour pressure.',emoji:'🏆',color:'#e07fa3',certificate:'certificates/cert-code-a-haunt.jpg'},
+  {id:3,period:'November 2025',title:'Cybersecurity Workshop — AWS',subtitle:'Industry workshop on cloud security & best practices',emoji:'☁️',color:'#ff9900',certificate:'certificates/cert-aws-cybersecurity.jpeg'},
+  {id:4,period:'March 2024',title:'Code-A-Haunt Hackathon',subtitle:'24-Hour Web Development Hackathon',desc:'Collaborated in a team to build and deploy a web project under 24-hour pressure.',emoji:'🏆',color:'#e07fa3',certificate:'certificates/cert-code-a-haunt.jpeg'},
   {id:5,period:'2020 – 2022',title:'Intermediate (Class XII)',subtitle:'City Montessori School, Aliganj, Lucknow',score:'94.3%',emoji:'🏫',color:'#85b8c8'},
   {id:6,period:'2018 – 2020',title:'Matriculation (Class X)',subtitle:'City Montessori School, Aliganj, Lucknow',score:'95.6%',emoji:'🏅',color:'#c9a84c'}
 
