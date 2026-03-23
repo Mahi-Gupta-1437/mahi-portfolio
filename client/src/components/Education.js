@@ -13,6 +13,13 @@ export default function Education({ education }) {
     return ()=>obs.disconnect();
   },[education]);
 
+  // Close on ESC key
+  useEffect(()=>{
+    const handler = e => { if(e.key==='Escape') setCertImg(null); };
+    window.addEventListener('keydown', handler);
+    return ()=>window.removeEventListener('keydown', handler);
+  },[]);
+
   return (
     <section id="education" ref={ref}>
       <div className="max-w">
@@ -30,10 +37,9 @@ export default function Education({ education }) {
                 {e.certificate && (
                   <button
                     onClick={()=>setCertImg(e.certificate)}
-                    className="tl-cert-btn"
                     style={{marginTop:10,display:'inline-flex',alignItems:'center',gap:6,background:'var(--pri-s)',color:'var(--primary)',border:'1px solid var(--border)',borderRadius:50,padding:'5px 14px',fontSize:'.75rem',fontWeight:700,cursor:'pointer',transition:'all .3s'}}
-                    onMouseEnter={e2=>{e2.currentTarget.style.background='var(--primary)';e2.currentTarget.style.color='#fff'}}
-                    onMouseLeave={e2=>{e2.currentTarget.style.background='var(--pri-s)';e2.currentTarget.style.color='var(--primary)'}}
+                    onMouseEnter={ev=>{ev.currentTarget.style.background='var(--primary)';ev.currentTarget.style.color='#fff';}}
+                    onMouseLeave={ev=>{ev.currentTarget.style.background='var(--pri-s)';ev.currentTarget.style.color='var(--primary)';}}
                   >
                     <i className="fas fa-certificate"/> View Certificate
                   </button>
@@ -44,23 +50,48 @@ export default function Education({ education }) {
         </div>
       </div>
 
-      {/* Certificate Image Lightbox */}
+      {/* Certificate Lightbox */}
       {certImg && (
         <div
           onClick={()=>setCertImg(null)}
-          style={{position:'fixed',inset:0,zIndex:90000,background:'rgba(0,0,0,.82)',backdropFilter:'blur(8px)',display:'flex',alignItems:'center',justifyContent:'center',padding:18,cursor:'zoom-out'}}
+          style={{
+            position:'fixed',inset:0,zIndex:90000,
+            background:'rgba(0,0,0,.88)',backdropFilter:'blur(10px)',
+            display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',
+            padding:20,cursor:'pointer'
+          }}
         >
-          <div onClick={e2=>e2.stopPropagation()} style={{position:'relative',maxWidth:900,width:'100%'}}>
+          {/* Prominent top-bar with close button */}
+          <div
+            onClick={ev=>ev.stopPropagation()}
+            style={{width:'100%',maxWidth:880,display:'flex',justifyContent:'flex-end',marginBottom:10,cursor:'default'}}
+          >
             <button
               onClick={()=>setCertImg(null)}
-              style={{position:'absolute',top:-14,right:-14,width:34,height:34,borderRadius:'50%',border:'none',background:'var(--accent)',color:'#fff',fontSize:'1rem',display:'flex',alignItems:'center',justifyContent:'center',cursor:'pointer',zIndex:1,boxShadow:'0 4px 14px rgba(0,0,0,.4)'}}
-            ><i className="fas fa-times"/></button>
+              style={{
+                display:'inline-flex',alignItems:'center',gap:7,
+                background:'rgba(255,255,255,.15)',color:'#fff',
+                border:'1px solid rgba(255,255,255,.25)',
+                borderRadius:50,padding:'7px 16px',
+                fontSize:'.8rem',fontWeight:700,cursor:'pointer',
+                backdropFilter:'blur(4px)',transition:'background .2s'
+              }}
+              onMouseEnter={ev=>ev.currentTarget.style.background='rgba(224,127,163,.8)'}
+              onMouseLeave={ev=>ev.currentTarget.style.background='rgba(255,255,255,.15)'}
+            >
+              <i className="fas fa-times"/> Close
+            </button>
+          </div>
+
+          {/* Certificate image */}
+          <div onClick={ev=>ev.stopPropagation()} style={{maxWidth:880,width:'100%',cursor:'default'}}>
             <img
               src={`/${certImg}`}
               alt="Certificate"
-              style={{width:'100%',borderRadius:14,boxShadow:'0 24px 80px rgba(0,0,0,.6)',display:'block'}}
+              style={{width:'100%',borderRadius:14,boxShadow:'0 24px 80px rgba(0,0,0,.7)',display:'block'}}
             />
           </div>
+          <p style={{color:'rgba(255,255,255,.35)',fontSize:'.72rem',marginTop:12}}>Click outside to close</p>
         </div>
       )}
     </section>
