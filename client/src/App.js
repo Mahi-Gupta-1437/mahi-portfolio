@@ -34,6 +34,9 @@ export default function App() {
 
   // Load all data
   useEffect(() => {
+    // Safety net: never stay stuck on loader longer than 10 seconds
+    const safetyTimer = setTimeout(() => setLoaded(true), 10000);
+
     const load = async () => {
       try {
         const endpoints = [
@@ -64,6 +67,7 @@ export default function App() {
       } catch(err) { 
         console.error('Core API error:', err.message); 
       } finally {
+        clearTimeout(safetyTimer);
         setTimeout(() => setLoaded(true), 1600);
       }
     };
@@ -104,7 +108,9 @@ export default function App() {
   const openPdf = (file, title) => { setPdfFile(file); setPdfTitle(title); };
   const closePdf = () => { setPdfFile(null); };
 
-  if (!portfolio) return <Loader />;
+  // Do NOT early-return here — if we return a bare <Loader /> without the `done` prop,
+  // the loader can never transition to done when the API is slow (cold start, etc.).
+  // Instead we let the full render mount and rely on <Loader done={loaded}> below.
 
   return (
     <>
